@@ -20,18 +20,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(QtGui.QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1108, 906)
+        MainWindow.resize(1108, 906) 
+        icon7 = QtGui.QIcon("sound.png")
+        MainWindow.setWindowIcon(icon7)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         
         self.Signal1 = QtWidgets.QPushButton(self.centralwidget)
         self.Signal1.setGeometry(QtCore.QRect(30, 10, 171, 49))
         self.Signal1.setStyleSheet("background-color:rgb(255, 255, 255);\n" "font: 10pt \"Arial\";")
-
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("find.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Signal1.setIcon(icon)
-
         self.Signal1.setIconSize(QtCore.QSize(40, 40))
         self.Signal1.setObjectName("Signal1")
 
@@ -53,10 +53,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.save.setGeometry(QtCore.QRect(580, 10, 53, 49))
         self.save.setStyleSheet("background-color:rgb(255, 255, 255);\n""font: 10pt \"Arial\";")
         self.save.setText("")
-
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap("pdf-file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        
         self.save.setIcon(icon6)
         self.save.setIconSize(QtCore.QSize(40, 40))
         self.save.setObjectName("save")
@@ -242,32 +240,29 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    ######----- Buttons actions -----######
-    # self.buttonname.clicked.connect(lambda:self.functionname())
-
+        #----- Buttons actions -----#
+        # self.buttonname.clicked.connect(lambda:self.functionname())
         self.Signal1.clicked.connect(lambda:self.opensignal1())
 
-    #############################################
-        #######----reading function ---#######
+        #----reading function ---#
     def readsignal1(self):
-        self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt")
+        self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
         path=self.fname1[0]
-        self.data1=np.genfromtxt(path,delimiter=',')
+        self.data1=np.genfromtxt(path,delimiter=' ')
         self.x1= self.data1[: , 0]
         self.y1 =self.data1[: , 1] 
         self.x1= list(self.x1[:])
         self.y1= list(self.y1[:])
-    ##################################################
 
-    #######----Buttons functions -----############
-    
+
+    #----Buttons functions -----#
     def opensignal1(self):
         self.readsignal1()
         self.pen = pg.mkPen(color=(255, 0, 0))
         self.data_line1 =  self.Viewsig_1.plot( self.x1,self.y1, pen=self.pen)
         self.Viewsig_1.plotItem.setLimits(xMin =0, xMax=12 , yMin =-0.6, yMax=0.6)
         
-    ###########################################
+
 
 
     def retranslateUi(self, MainWindow):
