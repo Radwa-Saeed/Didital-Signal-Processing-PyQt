@@ -98,7 +98,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         icon4.addPixmap(QtGui.QPixmap("zoom-in.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.zoomin1.setIcon(icon4)
         self.zoomin1.setIconSize(QtCore.QSize(30, 30))
-        self.zoomin1.setShortcut("Ctrl+=")
+        self.zoomin1.setShortcut("Ctrl++")
         self.zoomin1.setObjectName("zoomin1")
         self.zoomout1 = QtWidgets.QToolButton(self.centralwidget)
         self.zoomout1.setGeometry(QtCore.QRect(20, 278, 71, 33))
@@ -239,30 +239,94 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+         #Zooming
+        self.g1 =0
+        self.j1 =0
+        self.k1 =0
+        self.h1 =0
+        self.b1=False
 
         #----- Buttons actions -----#
         # self.buttonname.clicked.connect(lambda:self.functionname())
         self.Signal1.clicked.connect(lambda:self.opensignal1())
+        self.zoomin1.clicked.connect(lambda:self.zoominfn())
+        self.zoomout1.clicked.connect(lambda:self.zoomoutfn())
 
         #----reading function ---#
+
     def readsignal1(self):
         self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
         path=self.fname1[0]
-        self.data1=np.genfromtxt(path,delimiter=' ')
-        self.x1= self.data1[: , 0]
-        self.y1 =self.data1[: , 1] 
-        self.x1= list(self.x1[:])
-        self.y1= list(self.y1[:])
+        self.data1=np.genfromtxt(path,delimiter='')
+    #    self.x1= self.data1[: , 0]
+    #    self.y1 =self.data1[: , 1] 
+    #    self.x1= list(self.x1[:])
+    #    self.y1= list(self.y1[:])
 
 
     #----Buttons functions -----#
     def opensignal1(self):
         self.readsignal1()
         self.pen = pg.mkPen(color=(255, 0, 0))
-        self.data_line1 =  self.Viewsig_1.plot( self.x1,self.y1, pen=self.pen)
-        self.Viewsig_1.plotItem.setLimits(xMin =0, xMax=12 , yMin =-0.6, yMax=0.6)
+        self.data_line1 = self.Viewsig_1.plot( self.data1, pen=self.pen)
+      #  self.ui.channel2.plotItem.getViewBox().setAutoPan(x=True)
+       # self.ui.channel1.plotItem.getViewBox().setAutoPan(x=True)
+      #  self.Viewsig_1.plotItem.setLimits(xMin =0, xMax=12 , yMin =-0.9, yMax=0.6)
         
+    # def zoominfn (self):
+    #     self.j1=0
+    #     self.b1=True
+    #     self.g1 = self.g1 + 1
+    #    # self.k1=12-self.g1*0.5
+    #     if (self.h1 == 0):
 
+    #         self.k1 = 12-self.g1 *0.5
+    #     else:
+    #         self.k1 = self.h1 - self.g1 *0.5
+    #     # print(len(self.x1))
+    #   #  self.k1=max(0,self.k1)
+    #     print(f"k1 {self.k1}") 
+    #     print(f"h1 {self.h1}")   
+    #    # print(self.h1)
+    #     if (self.k1>=0):
+    #     #    self.h1 = self.k1 + self.j1 * 0.5
+    #         self.Viewsig_1.setXRange(0,self.k1)
+    #     else:
+    #         self.k1=0
+    #   #  self.Viewsig_1.setXRange(0,self.k1)
+    #     print(f"k1 {self.k1}") 
+    #     print(f"h1 {self.h1}")  
+    #     # self.Viewsig_1.plotItem.setLimits(xMin =0)
+    #   #  self.Viewsig_1.setYRange(0,self.h1)
+
+
+    # def zoomoutfn (self):
+    #     self.g1=0
+    #     self.j1 = self.j1+1
+    #     print(self.b1)
+    #  #   self.h1=12+self.j1*0.5
+    #     if (not self.b1) :
+    #         self.h1 = 12+self.j1 *0.5
+    #     else:
+    #         self.h1 = self.k1 + self.j1 * 0.5
+
+    #   #  self.h1=max(0,self.h1)  
+    #     print(f"h1 {self.h1}")
+    #     print(f"k1 {self.k1}")
+
+    #   #  self.Viewsig_1.setXRange(0,self.h1)
+ 
+    #     if (self.h1<=20):
+    #     #    self.k1 = self.h1 - self.g1 *0.5  
+    #         self.Viewsig_1.setXRange(0,self.h1)
+    #     else:
+    #         self.h1=20
+            
+
+
+     #   self.Viewsig_1.setXRange(0,self.h1)
+     #   self.Viewsig_1.plotItem.setLimits(xMin =0)
+        # self.Viewsig_1.setYRange(0,self.h1)
 
 
     def retranslateUi(self, MainWindow):
