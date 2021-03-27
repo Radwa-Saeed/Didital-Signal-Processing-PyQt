@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1108</width>
+    <height>906</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="Signal1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>171</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 255, 255);
+font: 10pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Signal 1</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>Toggle Media Play/Pause, Media Play</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Signal2">
+    <property name="geometry">
+     <rect>
+      <x>212</x>
+      <y>10</y>
+      <width>171</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 255, 255);
+font: 10pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Signal 2</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>Space</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Signal3">
+    <property name="geometry">
+     <rect>
+      <x>395</x>
+      <y>10</y>
+      <width>171</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 255, 255);
+font: 10pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Signal 3</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>Esc</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pause1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>159</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>198</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomout1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>278</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+-</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomin1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>238</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+=</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="play1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Toggle Media Play/Pause, Media Play</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="hide2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>330</y>
+      <width>261</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Hide signal_2</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="viewspect_2">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>370</y>
+      <width>471</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="Viewsig_2">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>370</y>
+      <width>461</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(0, 0, 0);</string>
+    </property>
+    <property name="rubberBandSelectionMode">
+     <enum>Qt::IntersectsItemBoundingRect</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="hide3">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>590</y>
+      <width>261</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Hide signal_3</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="viewspect_3">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>630</y>
+      <width>471</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="Viewsig_3">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>630</y>
+      <width>461</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(0, 0, 0);</string>
+    </property>
+    <property name="rubberBandSelectionMode">
+     <enum>Qt::IntersectsItemBoundingRect</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>10</y>
+      <width>53</width>
+      <height>49</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 255, 255);
+font: 10pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/save.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/save.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string>Esc</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="viewspect_1">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>120</y>
+      <width>471</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="Viewsig_1">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>120</y>
+      <width>461</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(0, 0, 0);</string>
+    </property>
+    <property name="rubberBandSelectionMode">
+     <enum>Qt::IntersectsItemBoundingRect</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="hide1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>261</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Hide signal_1 </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>448</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomin2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>488</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+=</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomout2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>528</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="play2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>370</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Toggle Media Play/Pause, Media Play</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pause2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>409</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>708</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/stop.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomin3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>748</y>
+      <width>71</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/+.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+=</string>
+    </property>
+   </widget>
+   <widget class="QToolButton" name="zoomout3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>788</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/-.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Ctrl+-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="play3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>630</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/play.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="shortcut">
+     <string notr="true">Toggle Media Play/Pause, Media Play</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pause3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>669</y>
+      <width>71</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(216, 216, 216)
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</normaloff>F:/Course/python DSP/Biomedical-Signal_Viewer/looza/pause.jpg</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
