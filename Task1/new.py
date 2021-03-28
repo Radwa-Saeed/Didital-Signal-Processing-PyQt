@@ -326,29 +326,29 @@ class Ui_MainWindow(QtGui.QMainWindow):
     #     self.y1= list(self.y1[:])
 
 ############# FUNCTION KAREEM ##############
-    def opensignal1(self):
-        self.readsignal1()
-        self.h =len(self.data1)
-        self.n = 0
-        self.data_line1 = self.Viewsig_1.plot(self.data1, name="mode2")
-        self.ptr1 = 0
-        self.pen = pg.mkPen(color=(255, 0, 0))
-        # Set timer
-        self.timer = pg.QtCore.QTimer()
-        # Timer signal binding update_data function
-        self.timer.timeout.connect(self.update_data)
-        # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        self.timer.start(50)
-        # self.Viewsig_1.plotItem.setXRange(min(self.timer, default=0)+self.x)
-    # Data shift left
-    def update_data(self):
-        if self.n < self.h :
-            self.n += 10    
-            self.data_line1.setData(self.data1[0 : 100+self.n])
-            self.Viewsig_1.plotItem.setXRange(0+self.n, 300+self.n , padding=0)
-        else :
-            self.data_line1.setData(self.data1[0 : 100+self.n])
-            self.Viewsig_1.plotItem.setXRange(self.h-1000 , self.h , padding=0)
+    # def opensignal1(self):
+    #     self.readsignal1()
+    #     self.h =len(self.data1)
+    #     self.n = 0
+    #     self.data_line1 = self.Viewsig_1.plot(self.data1, name="mode2")
+    #     self.ptr1 = 0
+    #     self.pen = pg.mkPen(color=(255, 0, 0))
+    #     # Set timer
+    #     self.timer = pg.QtCore.QTimer()
+    #     # Timer signal binding update_data function
+    #     self.timer.timeout.connect(self.update_data)
+    #     # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
+    #     self.timer.start(50)
+    #     # self.Viewsig_1.plotItem.setXRange(min(self.timer, default=0)+self.x)
+    # # Data shift left
+    # def update_data(self):
+    #     if self.n < self.h :
+    #         self.n += 10    
+    #         self.data_line1.setData(self.data1[0 : 100+self.n])
+    #         self.Viewsig_1.plotItem.setXRange(0+self.n, 300+self.n , padding=0)
+    #     else :
+    #         self.data_line1.setData(self.data1[0 : 100+self.n])
+    #         self.Viewsig_1.plotItem.setXRange(self.h-1000 , self.h , padding=0)
 ##################################################################
 
     #----Buttons functions -----#
