@@ -273,54 +273,54 @@ class Ui_MainWindow(QtGui.QMainWindow):
        # self.ui.channel1.plotItem.getViewBox().setAutoPan(x=True)
       #  self.Viewsig_1.plotItem.setLimits(xMin =0, xMax=12 , yMin =-0.9, yMax=0.6)
         
-    # def zoominfn (self):
-    #     self.j1=0
-    #     self.b1=True
-    #     self.g1 = self.g1 + 1
-    #    # self.k1=12-self.g1*0.5
-    #     if (self.h1 == 0):
+    def zoominfn (self):
+        self.j1=0
+        self.b1=True
+        self.g1 = self.g1 + 1
+       # self.k1=12-self.g1*0.5
+        if (self.h1 == 0):
 
-    #         self.k1 = 12-self.g1 *0.5
-    #     else:
-    #         self.k1 = self.h1 - self.g1 *0.5
-    #     # print(len(self.x1))
-    #   #  self.k1=max(0,self.k1)
-    #     print(f"k1 {self.k1}") 
-    #     print(f"h1 {self.h1}")   
-    #    # print(self.h1)
-    #     if (self.k1>=0):
-    #     #    self.h1 = self.k1 + self.j1 * 0.5
-    #         self.Viewsig_1.setXRange(0,self.k1)
-    #     else:
-    #         self.k1=0
-    #   #  self.Viewsig_1.setXRange(0,self.k1)
-    #     print(f"k1 {self.k1}") 
-    #     print(f"h1 {self.h1}")  
-    #     # self.Viewsig_1.plotItem.setLimits(xMin =0)
-    #   #  self.Viewsig_1.setYRange(0,self.h1)
+            self.k1 = 12-self.g1 *0.5
+        else:
+            self.k1 = self.h1 - self.g1 *0.5
+        # print(len(self.x1))
+      #  self.k1=max(0,self.k1)
+        print(f"k1 {self.k1}") 
+        print(f"h1 {self.h1}")   
+       # print(self.h1)
+        if (self.k1>=0):
+        #    self.h1 = self.k1 + self.j1 * 0.5
+            self.Viewsig_1.setXRange(0,self.k1)
+        else:
+            self.k1=0
+      #  self.Viewsig_1.setXRange(0,self.k1)
+        print(f"k1 {self.k1}") 
+        print(f"h1 {self.h1}")  
+        # self.Viewsig_1.plotItem.setLimits(xMin =0)
+      #  self.Viewsig_1.setYRange(0,self.h1)
 
 
-    # def zoomoutfn (self):
-    #     self.g1=0
-    #     self.j1 = self.j1+1
-    #     print(self.b1)
-    #  #   self.h1=12+self.j1*0.5
-    #     if (not self.b1) :
-    #         self.h1 = 12+self.j1 *0.5
-    #     else:
-    #         self.h1 = self.k1 + self.j1 * 0.5
+    def zoomoutfn (self):
+        self.g1=0
+        self.j1 = self.j1+1
+        print(self.b1)
+     #   self.h1=12+self.j1*0.5
+        if (not self.b1) :
+            self.h1 = 12+self.j1 *0.5
+        else:
+            self.h1 = self.k1 + self.j1 * 0.5
 
-    #   #  self.h1=max(0,self.h1)  
-    #     print(f"h1 {self.h1}")
-    #     print(f"k1 {self.k1}")
+      #  self.h1=max(0,self.h1)  
+        print(f"h1 {self.h1}")
+        print(f"k1 {self.k1}")
 
-    #   #  self.Viewsig_1.setXRange(0,self.h1)
+      #  self.Viewsig_1.setXRange(0,self.h1)
  
-    #     if (self.h1<=20):
-    #     #    self.k1 = self.h1 - self.g1 *0.5  
-    #         self.Viewsig_1.setXRange(0,self.h1)
-    #     else:
-    #         self.h1=20
+        if (self.h1<=20):
+        #    self.k1 = self.h1 - self.g1 *0.5  
+            self.Viewsig_1.setXRange(0,self.h1)
+        else:
+            self.h1=20
             
 
 
