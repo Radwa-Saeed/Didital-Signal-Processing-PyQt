@@ -42,28 +42,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.centralwidget.setObjectName("centralwidget")
         
         
-        self.Signal1 = QtWidgets.QPushButton(self.centralwidget)
-        self.Signal1.setGeometry(QtCore.QRect(30, 10, 171, 49))
-        self.Signal1.setStyleSheet("background-color:rgb(255, 255, 255);\n" "font: 10pt \"Arial\";")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.Signal1.setIcon(icon)
-        self.Signal1.setIconSize(QtCore.QSize(40, 40))
-        self.Signal1.setObjectName("Signal1")
+        # self.Signal1 = QtWidgets.QPushButton(self.centralwidget)
+        # self.Signal1.setGeometry(QtCore.QRect(30, 10, 171, 49))
+        # self.Signal1.setStyleSheet("background-color:rgb(255, 255, 255);\n" "font: 10pt \"Arial\";")
+        # icon = QtGui.QIcon()
+        # icon.addPixmap(QtGui.QPixmap("F:/Course/python DSP/Biomedical-Signal_Viewer/looza/find.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        # self.Signal1.setIcon(icon)
+        # self.Signal1.setIconSize(QtCore.QSize(40, 40))
+        # self.Signal1.setObjectName("Signal1")
 
-        self.Signal2 = QtWidgets.QPushButton(self.centralwidget)
-        self.Signal2.setGeometry(QtCore.QRect(212, 10, 171, 49))
-        self.Signal2.setStyleSheet("background-color:rgb(255, 255, 255);\n""font: 10pt \"Arial\";")
-        self.Signal2.setIcon(icon)
-        self.Signal2.setIconSize(QtCore.QSize(40, 40))
-        self.Signal2.setObjectName("Signal2")
+        # self.Signal2 = QtWidgets.QPushButton(self.centralwidget)
+        # self.Signal2.setGeometry(QtCore.QRect(212, 10, 171, 49))
+        # self.Signal2.setStyleSheet("background-color:rgb(255, 255, 255);\n""font: 10pt \"Arial\";")
+        # self.Signal2.setIcon(icon)
+        # self.Signal2.setIconSize(QtCore.QSize(40, 40))
+        # self.Signal2.setObjectName("Signal2")
 
-        self.Signal3 = QtWidgets.QPushButton(self.centralwidget)
-        self.Signal3.setGeometry(QtCore.QRect(395, 10, 171, 49))
-        self.Signal3.setStyleSheet("background-color:rgb(255, 255, 255);\n""font: 10pt \"Arial\";")
-        self.Signal3.setIcon(icon)
-        self.Signal3.setIconSize(QtCore.QSize(40, 40))
-        self.Signal3.setObjectName("Signal3")
+        # self.Signal3 = QtWidgets.QPushButton(self.centralwidget)
+        # self.Signal3.setGeometry(QtCore.QRect(395, 10, 171, 49))
+        # self.Signal3.setStyleSheet("background-color:rgb(255, 255, 255);\n""font: 10pt \"Arial\";")
+        # self.Signal3.setIcon(icon)
+        # self.Signal3.setIconSize(QtCore.QSize(40, 40))
+        # self.Signal3.setObjectName("Signal3")
 
         self.save = QtWidgets.QPushButton(self.centralwidget)
         self.save.setGeometry(QtCore.QRect(580, 10, 53, 49))
@@ -247,6 +247,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.Viewsig_3.setObjectName("Viewsig_3")
         self.Viewsig_3.plotItem.showGrid(x=True, y=True )
         self.Viewsig_3.plotItem.setMenuEnabled(False)
+
+        
         
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -300,7 +302,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def delete1(self):
         self.Viewsig_1.clear()
         self.viewspect_1.clear()
-
+        self.timer= None
+        self.data_line1.setData(self.data1[0 : 100])
     #----- save as pdf ---#
 
 
@@ -366,6 +369,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         # Set timer
         self.timer = pg.QtCore.QTimer()
+        
         # Timer signal binding update_data function
         self.timer.timeout.connect(self.update_data)
         # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
