@@ -342,7 +342,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.check_1.show()
         self.spectro_1.show()
         self.check_1.setChecked(True)
-      
+        
+   
     #Data shift left
     def update_data1(self):
         self.n1 += 10
