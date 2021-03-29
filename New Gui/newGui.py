@@ -36,6 +36,9 @@ def print_widget(widget, filename):
     painter.end()
 
 class Ui_MainWindow(QtGui.QMainWindow):
+    r1=300
+    r2=300
+    r3=300
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1010, 878)
@@ -320,6 +323,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.clear.clicked.connect(lambda:self.clearr())
         self.delete.clicked.connect(lambda:self.deletee())
         self.save.clicked.connect(lambda:self.savepdf())
+
+    # def opensignal1(self):
+    #     self.readsignal1()   
+    #     self.data_line1 = self.signal_1.plot(self.data1, name="mode2")
+    #     self.ptr1 = 0
+    #     self.n1 = 0
+    #     # Set timer
+    #     self.timer1 = pg.QtCore.QTimer()
+    #     # Timer signal binding update_data function
+    #     self.timer1.timeout.connect(self.update_data1)
+    #     # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
+    #     self.timer1.start(50)
+    #     self.signal_1.show()
+    #     self.check_1.show()
+    #     self.spectro_1.show()
+    #     self.check_1.setChecked(True)
+           
+    # #Data shift left
+    # def update_data1(self):
+    #     self.n1 += 10
+    #     self.data_line1.setData(self.data1[0 : 100+self.n1])
+    #     self.data_line1.setPos(self.ptr1,0)
         
 
     def readsignal1(self):
@@ -327,39 +352,41 @@ class Ui_MainWindow(QtGui.QMainWindow):
         path=self.fname1[0]
         self.data1=np.genfromtxt(path)
 
-    def opensignal1(self):
-        self.readsignal1()   
-        self.data_line1 = self.signal_1.plot(self.data1, name="mode2")
-        self.ptr1 = 0
-        self.n1 = 0
-        # Set timer
-        self.timer1 = pg.QtCore.QTimer()
-        # Timer signal binding update_data function
-        self.timer1.timeout.connect(self.update_data1)
-        # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        self.timer1.start(50)
-        self.signal_1.show()
-        self.check_1.show()
-        self.spectro_1.show()
-        self.check_1.setChecked(True)
-        
-   
-    #Data shift left
-    def update_data1(self):
-        self.n1 += 10
-        self.data_line1.setData(self.data1[0 : 100+self.n1])
-        self.data_line1.setPos(self.ptr1,0)
-
     def readsignal2(self):
         self.fname2=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
         path=self.fname2[0]
         self.data2=np.genfromtxt(path)
 
+    def readsignal3(self):
+        self.fname3=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
+        path=self.fname3[0]
+        self.data3=np.genfromtxt(path)
+
+
+    def opensignal1(self):
+        self.readsignal1()
+        self.h1 =len(self.data1)
+        self.n1 = 0
+        self.data_line1 = self.signal_1.plot(self.data1, name="mode2")
+        self.pen = pg.mkPen(color=(255, 0, 0))
+        # Set timer
+        self.timer1 = pg.QtCore.QTimer()
+        # Timer signal binding update_data function
+        self.timer1.timeout.connect(self.update_data)
+        # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
+        self.timer1.start(50)
+       # self.timer1.start(50)
+        self.signal_1.show()
+        self.check_1.show()
+        self.spectro_1.show()
+        self.check_1.setChecked(True)
+        # self.Viewsig_1.plotItem.setXRange(min(self.timer, default=0)+self.x)
     def opensignal2(self):
         self.readsignal2()   
-        self.data_line2 = self.signal_2.plot(self.data2, name="mode2")
-        self.ptr2 = 0
+        self.h2 =len(self.data2)
         self.n2 = 0
+        self.data_line2 = self.signal_2.plot(self.data2, name="mode2")
+        self.pen = pg.mkPen(color=(0, 255, 0))
         # Set timer
         self.timer2 = pg.QtCore.QTimer()
         # Timer signal binding update_data function
@@ -370,23 +397,14 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.check_2.show()
         self.spectro_2.show()
         self.check_2.setChecked(True)
-      
-    #Data shift left
-    def update_data2(self):
-        self.n2 += 10
-        self.data_line2.setData(self.data2[0 : 100+self.n2])
-        self.data_line2.setPos(self.ptr2,0)
 
-    def readsignal3(self):
-        self.fname3=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
-        path=self.fname3[0]
-        self.data3=np.genfromtxt(path)
-
+    
     def opensignal3(self):
         self.readsignal3()   
-        self.data_line3 = self.signal_3.plot(self.data3, name="mode2")
-        self.ptr3 = 0
+        self.h3 =len(self.data3)
         self.n3 = 0
+        self.data_line3 = self.signal_3.plot(self.data3, name="mode2")
+        self.pen = pg.mkPen(color=(0, 0, 255))
         # Set timer
         self.timer3 = pg.QtCore.QTimer()
         # Timer signal binding update_data function
@@ -398,11 +416,40 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spectro_3.show()
         self.check_3.setChecked(True)
       
+    # Data shift left
+    def update_data(self):
+        if self.n1 < self.h1 :
+            self.n1 += 10  
+            self.data_line1.setData(self.data1[0 : 100+self.n1])
+            self.signal_1.plotItem.setXRange(0+self.n1,self.r1+self.n1 , padding=0)
+        else :
+            self.data_line1.setData(self.data1[0 : 100+self.n1])
+            self.signal_1.plotItem.setXRange(self.h1-1000 , self.h1 , padding=0)
+
+    #Data shift left
+    def update_data2(self):
+        if self.n2< self.h2 :
+            self.n2 += 10  
+            self.data_line2.setData(self.data2[0 : 100+self.n2])
+            self.signal_2.plotItem.setXRange(0+self.n2,self.r2+self.n2, padding=0)
+        else :
+            self.data_line2.setData(self.data1[0 : 100+self.n2])
+            self.signal_2.plotItem.setXRange(self.h2-1000 , self.h2 , padding=0)
+        # self.n2 += 10
+        # self.data_line2.setData(self.data2[0 : 100+self.n2])
+        # self.data_line2.setPos(self.ptr2,0)   
     #Data shift left
     def update_data3(self):
-        self.n3 += 10
-        self.data_line3.setData(self.data3[0 : 100+self.n3])
-        self.data_line3.setPos(self.ptr3,0)
+        if self.n3< self.h3 :
+            self.n3 += 10  
+            self.data_line3.setData(self.data3[0 : 100+self.n3])
+            self.signal_3.plotItem.setXRange(0+self.n3,self.r3+self.n3, padding=0)
+        else :
+            self.data_line3.setData(self.data3[0 : 100+self.n3])
+            self.signal_3.plotItem.setXRange(self.h3-1000 , self.h3 , padding=0)
+        # self.n3 += 10
+        # self.data_line3.setData(self.data3[0 : 100+self.n3])
+        # self.data_line3.setPos(self.ptr3,0)
     
     def pausee(self):
         if (self.check_1.isChecked()==True):
@@ -431,20 +478,26 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def zoomin(self):
         if (self.check_1.isChecked()==True):
             self.signal_1.plotItem.getViewBox().scaleBy(x=0.5,y=1)
+            self.r1=self.r1*0.5
         if (self.check_2.isChecked()==True):
             self.signal_2.plotItem.getViewBox().scaleBy(x=0.5,y=1)  
+            self.r2=self.r2*0.5
         if (self.check_3.isChecked()==True):
             self.signal_3.plotItem.getViewBox().scaleBy(x=0.5,y=1)
+            self.r3=self.r3*0.5
         # else:
         #     pass
         
     def zoomout(self):
         if (self.check_1.isChecked()==True):
             self.signal_1.plotItem.getViewBox().scaleBy(x=2,y=1)
+            self.r1=self.r1*2
         if (self.check_2.isChecked()==True):
-            self.signal_2.plotItem.getViewBox().scaleBy(x=2,y=1)  
+            self.signal_2.plotItem.getViewBox().scaleBy(x=2,y=1)
+            self.r2=self.r2*2  
         if (self.check_3.isChecked()==True):
             self.signal_3.plotItem.getViewBox().scaleBy(x=2,y=1)
+            self.r3=self.r3*2
 
     def scrlleft(self):
         if (self.check_1.isChecked()==True):
