@@ -14,6 +14,13 @@ import pyqtgraph as pg
 import pandas as pd
 import numpy as np
 
+import sys
+import random
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 
 #--------- to save as pdf ------------#
@@ -34,6 +41,13 @@ def print_widget(widget, filename):
     # end scale
     widget.render(painter)
     painter.end()
+
+class MplCanvas(FigureCanvas):
+
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        super(MplCanvas, self).__init__(fig)
 
 class Ui_MainWindow(QtGui.QMainWindow):
     r1=300
@@ -71,15 +85,18 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.signal_3.plotItem.showGrid(x=True, y=True )
         self.signal_3.plotItem.setMenuEnabled(False)
 
-        self.spectro_1 = QtWidgets.QGraphicsView(self.centralwidget)
+        self.spectro_1 = QtWidgets.QLabel(self.centralwidget)
+        self.spectro_1.setScaledContents(True)
         self.spectro_1.setGeometry(QtCore.QRect(490, 90, 471, 192))
         self.spectro_1.setObjectName("spectro_1")
         
-        self.spectro_2 = QtWidgets.QGraphicsView(self.centralwidget)
+        self.spectro_2 = QtWidgets.QLabel(self.centralwidget)
+        self.spectro_2.setScaledContents(True)
         self.spectro_2.setGeometry(QtCore.QRect(490, 340, 471, 192))
         self.spectro_2.setObjectName("spectro_2")
 
-        self.spectro_3 = QtWidgets.QGraphicsView(self.centralwidget)
+        self.spectro_3 = QtWidgets.QLabel(self.centralwidget)
+        self.spectro_3.setScaledContents(True)
         self.spectro_3.setGeometry(QtCore.QRect(490, 600, 471, 192))
         self.spectro_3.setObjectName("spectro_3")
     
@@ -97,6 +114,15 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.check_3.setGeometry(QtCore.QRect(20, 560, 68, 20))
         self.check_3.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
         self.check_3.setObjectName("check_3")
+
+
+        self.check_4 = QtWidgets.QCheckBox(self.centralwidget)
+        self.check_4.setGeometry(QtCore.QRect(20, 780, 68, 20))
+        self.check_4.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
+        self.check_4.setObjectName("check_4")
+
+
+
     
      
        
@@ -117,7 +143,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.zoom_out.setObjectName("zoom_out")
 
         self.save = QtWidgets.QPushButton(self.centralwidget)
-        self.save.setGeometry(QtCore.QRect(330, 1, 35, 35))
+        self.save.setGeometry(QtCore.QRect(370, 1, 35, 35))
         self.save.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -172,6 +198,14 @@ class Ui_MainWindow(QtGui.QMainWindow):
         icon7.addPixmap(QtGui.QPixmap("left-arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.left.setIcon(icon7)
         self.left.setObjectName("left")
+
+        self.spec = QtWidgets.QPushButton(self.centralwidget)
+        self.spec.setGeometry(QtCore.QRect(330, 1, 35, 35))
+        self.spec.setText("")
+        icon20 = QtGui.QIcon()
+        icon20.addPixmap(QtGui.QPixmap("spec3.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.spec.setIcon(icon20)
+        self.spec.setObjectName("spec")
 
         self.Zoom_in.raise_()
         self.signal_1.raise_()
@@ -323,6 +357,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.clear.clicked.connect(lambda:self.clearr())
         self.delete.clicked.connect(lambda:self.deletee())
         self.save.clicked.connect(lambda:self.savepdf())
+        self.spec.clicked.connect(lambda:self.spectro())
 
     # def opensignal1(self):
     #     self.readsignal1()   
@@ -348,17 +383,18 @@ class Ui_MainWindow(QtGui.QMainWindow):
         
 
     def readsignal1(self):
-        self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
+        self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home'),"text(*.txt) ;; csv(*.csv) ;; xls(*.xls)")
         path=self.fname1[0]
         self.data1=np.genfromtxt(path)
+        
 
     def readsignal2(self):
-        self.fname2=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
+        self.fname2=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home'),"text(*.txt) ;; csv(*.csv) ;; xls(*.xls)")
         path=self.fname2[0]
         self.data2=np.genfromtxt(path)
 
     def readsignal3(self):
-        self.fname3=QtGui.QFileDialog.getOpenFileName(self,'open only txt file',os.getenv('home'),"text(*.txt)")
+        self.fname3=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home'),"text(*.txt) ;; csv(*.csv) ;; xls(*.xls)")
         path=self.fname3[0]
         self.data3=np.genfromtxt(path)
 
@@ -450,7 +486,49 @@ class Ui_MainWindow(QtGui.QMainWindow):
         # self.n3 += 10
         # self.data_line3.setData(self.data3[0 : 100+self.n3])
         # self.data_line3.setPos(self.ptr3,0)
-    
+
+
+########################
+
+    def spec1(self):
+        self.x1data = self.data1
+        self.ydata = list (range(11, 1+self.h1))
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        plt.specgram(self.x1data, Fs= 250)
+        plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
+        self.spectro_1.setPixmap(QtGui.QPixmap('spectro1.png'))
+
+    def spec2(self):
+        self.x2data = self.data2
+        self.ydata = list (range(11, 1+self.h2))
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        plt.specgram(self.x2data, Fs= 250)
+        plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
+        self.spectro_2.setPixmap(QtGui.QPixmap('spectro2.png'))
+
+
+    def spec3(self):
+        self.x3data = self.data3
+        self.ydata = list (range(11, 1+self.h3))
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        plt.specgram(self.x3data, Fs= 250)
+        plt.savefig('spectro3.png', dpi=300, bbox_inches='tight')
+        self.spectro_3.setPixmap(QtGui.QPixmap('spectro3.png'))
+
+
+    def spectro(self):
+        if (self.check_1.isChecked()==True):
+            self.spec1()
+            
+        if (self.check_2.isChecked()==True):
+            self.spec2()
+
+        if (self.check_3.isChecked()==True):
+            self.spec3()
+
+
+########################
+
     def pausee(self):
         if (self.check_1.isChecked()==True):
             if self.timer1.isActive():
