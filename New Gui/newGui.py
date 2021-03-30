@@ -36,9 +36,7 @@ def print_widget(widget, filename):
     painter.end()
 
 class Ui_MainWindow(QtGui.QMainWindow):
-    r1=300
-    r2=300
-    r3=300
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1010, 878)
@@ -301,7 +299,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
     
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
+        self.r1=300
+        self.r2=300
+        self.r3=300
         self.actionsiganl_1.triggered.connect(lambda:self.opensignal1())
         self.actionsignal_2.triggered.connect(lambda:self.opensignal2())
         self.actionsignal_3.triggered.connect(lambda:self.opensignal3())
