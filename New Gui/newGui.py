@@ -25,9 +25,8 @@ from matplotlib.figure import Figure
 
 #--------- to save as pdf ------------#
 def print_widget(widget, filename):
-
-    printer =QtPrintSupport.QPrinter(QtPrintSupport.QPrinter.HighResolution)
-    printer.setOutputFormat(QtGui.QtPrintSupport.QPrinter.PdfFormat)
+    printer = QtPrintSupport.QPrinter(QtPrintSupport.QPrinter.HighResolution)
+    printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
     printer.setOutputFileName(filename)
     painter = QtGui.QPainter(printer)
 
@@ -112,16 +111,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.check_3.setGeometry(QtCore.QRect(20, 560, 68, 20))
         self.check_3.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
         self.check_3.setObjectName("check_3")
-
-
-        self.check_4 = QtWidgets.QCheckBox(self.centralwidget)
-        self.check_4.setGeometry(QtCore.QRect(20, 780, 68, 20))
-        self.check_4.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
-        self.check_4.setObjectName("check_4")
-
-
-
-    
      
        
         self.Zoom_in = QtWidgets.QPushButton(self.centralwidget)
@@ -147,6 +136,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         icon2.addPixmap(QtGui.QPixmap("file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.save.setIcon(icon2)
         self.save.setObjectName("save")
+        
 
         self.clear = QtWidgets.QPushButton(self.centralwidget)
         self.clear.setGeometry(QtCore.QRect(250, 1, 35, 35))
@@ -359,28 +349,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.save.clicked.connect(lambda:self.savepdf())
         self.spec.clicked.connect(lambda:self.spectro())
 
-    # def opensignal1(self):
-    #     self.readsignal1()   
-    #     self.data_line1 = self.signal_1.plot(self.data1, name="mode2")
-    #     self.ptr1 = 0
-    #     self.n1 = 0
-    #     # Set timer
-    #     self.timer1 = pg.QtCore.QTimer()
-    #     # Timer signal binding update_data function
-    #     self.timer1.timeout.connect(self.update_data1)
-    #     # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-    #     self.timer1.start(50)
-    #     self.signal_1.show()
-    #     self.check_1.show()
-    #     self.spectro_1.show()
-    #     self.check_1.setChecked(True)
-           
-    # #Data shift left
-    # def update_data1(self):
-    #     self.n1 += 10
-    #     self.data_line1.setData(self.data1[0 : 100+self.n1])
-    #     self.data_line1.setPos(self.ptr1,0)
-        
+
 
     def readsignal1(self):
         self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home'),"text(*.txt) ;; csv(*.csv) ;; xls(*.xls)")
@@ -493,7 +462,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec1(self):
         self.x1data = self.data1
         self.ydata = list (range(11, 1+self.h1))
-        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        #sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x1data, Fs= 250)
         plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
         self.spectro_1.setPixmap(QtGui.QPixmap('spectro1.png'))
@@ -501,7 +470,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec2(self):
         self.x2data = self.data2
         self.ydata = list (range(11, 1+self.h2))
-        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        #sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x2data, Fs= 250)
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectro_2.setPixmap(QtGui.QPixmap('spectro2.png'))
@@ -510,7 +479,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec3(self):
         self.x3data = self.data3
         self.ydata = list (range(11, 1+self.h3))
-        sc = MplCanvas(self, width=5, height=4, dpi=100)
+        #sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x3data, Fs= 250)
         plt.savefig('spectro3.png', dpi=300, bbox_inches='tight')
         self.spectro_3.setPixmap(QtGui.QPixmap('spectro3.png'))
@@ -629,16 +598,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
             
    
     #----- save as pdf ---#
-    #----- save as pdf ---#
-
 
     def savepdf(self):
         fn, _ = QtWidgets.QFileDialog.getSaveFileName(
             self, "Export PDF", None, "PDF files (.pdf);;All Files()")
         if fn:
             if QtCore.QFileInfo(fn).suffix() == "": fn += ".pdf"
-            print_widget(MainWindow , fn)
-
+            print_widget(MainWindow, fn)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
