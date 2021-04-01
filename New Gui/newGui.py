@@ -462,7 +462,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec1(self):
         self.x1data = self.data1
         self.ydata = list (range(11, 1+self.h1))
-        #sc = MplCanvas(self, width=5, height=4, dpi=100)
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x1data, Fs= 250)
         plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
         self.spectro_1.setPixmap(QtGui.QPixmap('spectro1.png'))
@@ -470,7 +470,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec2(self):
         self.x2data = self.data2
         self.ydata = list (range(11, 1+self.h2))
-        #sc = MplCanvas(self, width=5, height=4, dpi=100)
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x2data, Fs= 250)
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectro_2.setPixmap(QtGui.QPixmap('spectro2.png'))
@@ -479,7 +479,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spec3(self):
         self.x3data = self.data3
         self.ydata = list (range(11, 1+self.h3))
-        #sc = MplCanvas(self, width=5, height=4, dpi=100)
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
         plt.specgram(self.x3data, Fs= 250)
         plt.savefig('spectro3.png', dpi=300, bbox_inches='tight')
         self.spectro_3.setPixmap(QtGui.QPixmap('spectro3.png'))
