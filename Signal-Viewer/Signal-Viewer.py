@@ -22,32 +22,6 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-
-#--------- to save as pdf ------------#
-def print_widget(widget, filename):
-    printer = QtPrintSupport.QPrinter(QtPrintSupport.QPrinter.HighResolution)
-    printer.setOutputFormat(QtPrintSupport.QPrinter.PdfFormat)
-    printer.setOutputFileName(filename)
-    painter = QtGui.QPainter(printer)
-
-    # start scale
-    xscale = printer.pageRect().width() * 1.0 / widget.width()
-    yscale = printer.pageRect().height() * 1.0 / widget.height()
-    scale = min(xscale, yscale)
-    painter.translate(printer.paperRect().center())
-    painter.scale(scale, scale)
-    painter.translate(-widget.width() / 2, -widget.height() / 2)
-    # end scale
-    widget.render(painter)
-    painter.end()
-
-# class MplCanvas(FigureCanvas):
-
-#     def __init__(self, parent=None, width=5, height=4, dpi=100):
-#         fig = Figure(figsize=(width, height), dpi=dpi)
-#         self.axes = fig.add_subplot(111)
-#         super(MplCanvas, self).__init__(fig)
-
 class Ui_MainWindow(QtGui.QMainWindow):
 
     def setupUi(self, MainWindow):
@@ -415,7 +389,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signal_1.plotItem.setXRange(0+self.n1,self.r1+self.n1 , padding=0)
         else :
             self.data_line1.setData(self.data1[0 : 100+self.n1])
-            self.signal_1.plotItem.setXRange(self.h1-1000 , self.h1 , padding=0)
+            self.signal_1.plotItem.setXRange(0 , self.h1 , padding=0)
 
     #Data shift left
     def update_data2(self):
@@ -425,7 +399,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signal_2.plotItem.setXRange(0+self.n2,self.r2+self.n2, padding=0)
         else :
             self.data_line2.setData(self.data1[0 : 100+self.n2])
-            self.signal_2.plotItem.setXRange(self.h2-1000 , self.h2 , padding=0)
+            self.signal_2.plotItem.setXRange(0 , self.h2 , padding=0)
   
     #Data shift left
     def update_data3(self):
@@ -435,7 +409,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signal_3.plotItem.setXRange(0+self.n3,self.r3+self.n3, padding=0)
         else :
             self.data_line3.setData(self.data3[0 : 100+self.n3])
-            self.signal_3.plotItem.setXRange(self.h3-1000 , self.h3 , padding=0)
+            self.signal_3.plotItem.setXRange(0 , self.h3 , padding=0)
 
 
 ########################
@@ -444,21 +418,21 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def spectro(self):
         if (self.check_1.isChecked()==True):
             self.spectro_1.show()
-            plt.specgram(self.data1, Fs= 1000)
+            plt.specgram(self.data1, Fs= 250        )
             plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
             self.spectro_1.setPixmap(QtGui.QPixmap('spectro1.png'))
             plt.close(None)
 
         if (self.check_2.isChecked()==True):
             self.spectro_2.show()
-            plt.specgram(self.data2, Fs= 1000)
+            plt.specgram(self.data2, Fs= 250)
             plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
             self.spectro_2.setPixmap(QtGui.QPixmap('spectro2.png'))
             plt.close(None)
 
         if (self.check_3.isChecked()==True):
             self.spectro_3.show()
-            plt.specgram(self.data3, Fs= 1000)
+            plt.specgram(self.data3, Fs= 250)
             plt.savefig('spectro3.png', dpi=300, bbox_inches='tight')
             self.spectro_3.setPixmap(QtGui.QPixmap('spectro3.png'))
             plt.close(None)
@@ -528,12 +502,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
     # else:
     def clearr(self):
         if (self.check_1.isChecked()==True):
-
             self.timer1=None
             self.data_line1.setData(self.data1[0 : 100])
             self.signal_1.clear()
             self.spectro_1.clear()
-            # self.spectro_1.hide()
                
         if (self.check_2.isChecked()==True):
             self.signal_2.clear()
@@ -546,16 +518,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.timer3= None
             self.data_line3.setData(self.data1[0 : 100])
 
-            
-   
-    #----- save as pdf ---#
-
     def savepdf(self):
-        fn, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self, "Export PDF", None, "PDF files (.pdf);;All Files()")
-        if fn:
-            if QtCore.QFileInfo(fn).suffix() == "": fn += ".pdf"
-            print_widget(MainWindow, fn)
+        fig=plt.figure()
+        if (self.check_1.isChecked()==True):
+            plt.subplot(2,3,1)
+            plt.plot(self.data1,linewidth=0.5,scalex=True)
+            plt.subplot(2,3,4)
+            plt.specgram(self.data1, Fs= 250)
+        if (self.check_2.isChecked()==True):
+            plt.subplot(2,3,2)
+            plt.plot(self.data2)
+            plt.subplot(2,3,5)
+            plt.specgram(self.data2, Fs= 250)
+        if (self.check_3.isChecked()==True):
+            plt.subplot(2,3,3)
+            plt.plot(self.data3)
+            plt.subplot(2,3,6)
+            plt.specgram(self.data3, Fs= 250)
+
+        plt.subplots_adjust(bottom=0.1,right=0.9,top=1.0)
+        plt.show()
+        fig.savefig("x.pdf")    
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
