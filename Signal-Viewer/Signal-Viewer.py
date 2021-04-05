@@ -519,28 +519,31 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.data_line3.setData(self.data1[0 : 100])
 
     def savepdf(self):
-        fig=plt.figure()
+        fig=plt.figure(figsize=(1000, 1000))
         if (self.check_1.isChecked()==True):
-            plt.subplot(2,3,1)
+            plt.subplot(3,2,1)
             plt.plot(self.data1,linewidth=0.5,scalex=True)
-            plt.subplot(2,3,4)
+            plt.subplot(3,2,2)
             plt.specgram(self.data1, Fs= 250)
         if (self.check_2.isChecked()==True):
-            plt.subplot(2,3,2)
-            plt.plot(self.data2)
-            plt.subplot(2,3,5)
+            plt.subplot(3,2,3)
+            plt.plot(self.data2,linewidth=0.5,scalex=True)
+            plt.subplot(3,2,4)
             plt.specgram(self.data2, Fs= 250)
         if (self.check_3.isChecked()==True):
-            plt.subplot(2,3,3)
-            plt.plot(self.data3)
-            plt.subplot(2,3,6)
+            plt.subplot(3,2,5)
+            plt.plot(self.data3,linewidth=0.5,scalex=True)
+            plt.subplot(3,2,6)
             plt.specgram(self.data3, Fs= 250)
 
         plt.subplots_adjust(bottom=0.1,right=0.9,top=1.0)
         plt.show()
-        fig.savefig("x.pdf")    
-
-
+        fn,_=QtWidgets.QFileDialog.getSaveFileName(self,"Export PDF",None,"PDF files(.pdf);;AllFiles()")
+        if fn:
+            if QtCore.QFileInfo(fn).suffix()=="":
+                fn+=".pdf"
+                fig.savefig(fn)
+                    
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
