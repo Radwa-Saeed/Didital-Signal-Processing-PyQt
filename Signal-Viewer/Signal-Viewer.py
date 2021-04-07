@@ -23,6 +23,17 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 class Ui_MainWindow(QtGui.QMainWindow):
+    signals = []
+    timer = []
+    data = []
+    n = []
+    nn = []
+    data_line = []
+    r = [1200,1200,1200]
+    z = [1,1,1]
+    spectrogram = []
+    checkBox = []
+    counter = -1
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -31,149 +42,143 @@ class Ui_MainWindow(QtGui.QMainWindow):
         MainWindow.setWindowIcon(mW)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-
-        self.signal_1 = PlotWidget(self.centralwidget)
-        self.signal_1.setGeometry(QtCore.QRect(20, 90, 461, 192))
-        self.signal_1.setStyleSheet("background-color:rgb(0, 0, 0);")
-        self.signal_1.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
-        self.signal_1.setObjectName("signal_1")
-        self.signal_1.plotItem.showGrid(x=True, y=True )
-        self.signal_1.plotItem.setMenuEnabled(False)
-
-        self.signal_2 = PlotWidget(self.centralwidget)
-        self.signal_2.setGeometry(QtCore.QRect(20, 340, 461, 192))
-        self.signal_2.setStyleSheet("background-color:rgb(0, 0, 0);")
-        self.signal_2.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
-        self.signal_2.setObjectName("signal_2")
-        self.signal_2.plotItem.showGrid(x=True, y=True )
-        self.signal_2.plotItem.setMenuEnabled(False)
-
-        self.signal_3 = PlotWidget(self.centralwidget)
-        self.signal_3.setGeometry(QtCore.QRect(20, 600, 461, 192))
-        self.signal_3.setStyleSheet("background-color:rgb(0, 0, 0);")
-        self.signal_3.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
-        self.signal_3.setObjectName("signal_3")
-        self.signal_3.plotItem.showGrid(x=True, y=True )
-        self.signal_3.plotItem.setMenuEnabled(False)
-
-        self.spectro_1 = QtWidgets.QLabel(self.centralwidget)
-        self.spectro_1.setScaledContents(True)
-        self.spectro_1.setGeometry(QtCore.QRect(490, 90, 471, 192))
-        self.spectro_1.setObjectName("spectro_1")
         
-        self.spectro_2 = QtWidgets.QLabel(self.centralwidget)
-        self.spectro_2.setScaledContents(True)
-        self.spectro_2.setGeometry(QtCore.QRect(490, 340, 471, 192))
-        self.spectro_2.setObjectName("spectro_2")
+        for i in range(0,3):
 
-        self.spectro_3 = QtWidgets.QLabel(self.centralwidget)
-        self.spectro_3.setScaledContents(True)
-        self.spectro_3.setGeometry(QtCore.QRect(490, 600, 471, 192))
-        self.spectro_3.setObjectName("spectro_3")
-    
-        self.check_1 = QtWidgets.QCheckBox(self.centralwidget)
-        self.check_1.setGeometry(QtCore.QRect(20, 50, 68, 20))
-        self.check_1.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
-        self.check_1.setObjectName("check_1")
+            self.signals.append( PlotWidget(self.centralwidget))
+        
+            self.spectrogram.append( QtWidgets.QLabel(self.centralwidget))
 
-        self.check_2 = QtWidgets.QCheckBox(self.centralwidget)
-        self.check_2.setGeometry(QtCore.QRect(20, 300, 68, 20))
-        self.check_2.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
-        self.check_2.setObjectName("check_2")
+            self.checkBox.append(QtWidgets.QCheckBox(self.centralwidget))
+            if i == 0:
+                self.signals[i].setGeometry(QtCore.QRect(20, 90, 461, 192))
+                self.signals[i].setObjectName("signal_1")
 
-        self.check_3 = QtWidgets.QCheckBox(self.centralwidget)
-        self.check_3.setGeometry(QtCore.QRect(20, 560, 68, 20))
-        self.check_3.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
-        self.check_3.setObjectName("check_3")
-     
-       
+                self.spectrogram[i].setGeometry(QtCore.QRect(490, 90, 471, 192))
+                self.spectrogram[i].setObjectName("spectro_1")
+
+                self.checkBox[i].setGeometry(QtCore.QRect(20, 50, 68, 20))
+                self.checkBox[i].setObjectName("check_1")
+
+            elif i == 1:
+                self.signals[i].setGeometry(QtCore.QRect(20, 340, 461, 192))
+                self.signals[i].setObjectName("signal_2")
+
+                self.spectrogram[i].setGeometry(QtCore.QRect(490, 340, 471, 192))
+                self.spectrogram[i].setObjectName("spectro_2")
+
+                self.checkBox[i].setGeometry(QtCore.QRect(20, 300, 68, 20))
+                self.checkBox[i].setObjectName("check_2")
+
+            else:
+                self.signals[i].setGeometry(QtCore.QRect(20, 600, 461, 192))
+                self.signals[i].setObjectName("signal_3")
+
+                self.spectrogram[i].setGeometry(QtCore.QRect(490, 600, 471, 192))
+                self.spectrogram[i].setObjectName("spectro_3")
+
+                self.checkBox[i].setGeometry(QtCore.QRect(20, 560, 68, 20))
+                self.checkBox[i].setObjectName("check_3")
+
+
+            self.signals[i].setStyleSheet("background-color:rgb(0, 0, 0);")
+            self.signals[i].setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
+            self.signals[i].plotItem.showGrid(x=True, y=True )
+            self.signals[i].plotItem.setMenuEnabled(False)
+
+            self.checkBox[i].setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
+
+            self.spectrogram[i].setScaledContents(True)
+        
+        self.open = QtWidgets.QPushButton(self.centralwidget)
+        self.open.setGeometry(QtCore.QRect(0, 1, 35, 35))
+        self.open.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("img/open.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.open.setIcon(icon3)
+        self.open.setObjectName("open")
+
+        self.save = QtWidgets.QPushButton(self.centralwidget)
+        self.save.setGeometry(QtCore.QRect(30, 1, 35, 35))
+        self.save.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("img/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save.setIcon(icon2)
+        self.save.setObjectName("save")
+        
+        
         self.Zoom_in = QtWidgets.QPushButton(self.centralwidget)
-        self.Zoom_in.setGeometry(QtCore.QRect(10, 1, 35, 35))
+        self.Zoom_in.setGeometry(QtCore.QRect(60, 1, 35, 35))
         self.Zoom_in.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("zoom-in.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("img/zoom-in.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Zoom_in.setIcon(icon)
         self.Zoom_in.setObjectName("Zoom_in")
 
         self.zoom_out = QtWidgets.QPushButton(self.centralwidget)
-        self.zoom_out.setGeometry(QtCore.QRect(50, 1, 35, 35))
+        self.zoom_out.setGeometry(QtCore.QRect(90, 1, 35, 35))
         self.zoom_out.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("zoom-ou.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("img/zoom-out.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.zoom_out.setIcon(icon1)
         self.zoom_out.setObjectName("zoom_out")
 
-        self.save = QtWidgets.QPushButton(self.centralwidget)
-        self.save.setGeometry(QtCore.QRect(330, 1, 35, 35))
-        self.save.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.save.setIcon(icon2)
-        self.save.setObjectName("save")
-        
+        self.left = QtWidgets.QPushButton(self.centralwidget)
+        self.left.setGeometry(QtCore.QRect(120, 1, 35, 35))
+        self.left.setText("")
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("img/previous.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.left.setIcon(icon7)
+        self.left.setObjectName("left")
 
-        self.clear = QtWidgets.QPushButton(self.centralwidget)
-        self.clear.setGeometry(QtCore.QRect(250, 1, 35, 35))
-        self.clear.setText("")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("eraser.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.clear.setIcon(icon3)
-        self.clear.setObjectName("clear")
+        self.play = QtWidgets.QPushButton(self.centralwidget)
+        self.play.setGeometry(QtCore.QRect(150, 1, 35, 35))
+        self.play.setText("")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("img/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.play.setIcon(icon5)
+        self.play.setObjectName("play")
+
+        
+        self.right = QtWidgets.QPushButton(self.centralwidget)
+        self.right.setGeometry(QtCore.QRect(180, 1, 35, 35))
+        self.right.setText("")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("img/next.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.right.setIcon(icon6)
+        self.right.setObjectName("right")
+
 
         self.pause = QtWidgets.QPushButton(self.centralwidget)
         self.pause.setGeometry(QtCore.QRect(210, 1, 35, 35))
         self.pause.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("img/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pause.setIcon(icon4)
         self.pause.setObjectName("pause")
 
-        self.play = QtWidgets.QPushButton(self.centralwidget)
-        self.play.setGeometry(QtCore.QRect(170, 1, 35, 35))
-        self.play.setText("")
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.play.setIcon(icon5)
-        self.play.setObjectName("play")
-
-
-        self.right = QtWidgets.QPushButton(self.centralwidget)
-        self.right.setGeometry(QtCore.QRect(130, 1, 35, 35))
-        self.right.setText("")
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("right-arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.right.setIcon(icon6)
-        self.right.setObjectName("right")
-
-        self.left = QtWidgets.QPushButton(self.centralwidget)
-        self.left.setGeometry(QtCore.QRect(90, 1, 35, 35))
-        self.left.setText("")
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("left-arrow.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.left.setIcon(icon7)
-        self.left.setObjectName("left")
-
+        
         self.spec = QtWidgets.QPushButton(self.centralwidget)
-        self.spec.setGeometry(QtCore.QRect(290, 1, 35, 35))
+        self.spec.setGeometry(QtCore.QRect(240, 1, 35, 35))
         self.spec.setText("")
         icon20 = QtGui.QIcon()
-        icon20.addPixmap(QtGui.QPixmap("spec3.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon20.addPixmap(QtGui.QPixmap("img/spec3.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.spec.setIcon(icon20)
         self.spec.setObjectName("spec")
-
+       
         self.Zoom_in.raise_()
-        self.signal_1.raise_()
-        self.check_2.raise_()
-        self.spectro_2.raise_()
-        self.spectro_3.raise_()
-        self.check_3.raise_()
-        self.spectro_1.raise_()
-        self.signal_2.raise_()
-        self.signal_3.raise_()
-        self.check_1.raise_()
+        self.signals[0].raise_()
+        self.checkBox[1].raise_()
+        self.spectrogram[1].raise_()
+        self.spectrogram[2].raise_()
+        self.checkBox[2].raise_()
+        self.spectrogram[0].raise_()
+        self.signals[1].raise_()
+        self.signals[2].raise_()
+        self.checkBox[0].raise_()
         self.zoom_out.raise_()
         self.save.raise_()
-        self.clear.raise_()
+        self.open.raise_()
         self.pause.raise_()
         self.play.raise_()
         self.right.raise_()
@@ -185,11 +190,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
-        self.menuopen = QtWidgets.QMenu(self.menuFile)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.menuopen.setIcon(icon9)
-        self.menuopen.setObjectName("menuopen")
         self.menuEdit = QtWidgets.QMenu(self.menubar)
         self.menuEdit.setObjectName("menuEdit")
         self.menuSignal_tools = QtWidgets.QMenu(self.menubar)
@@ -197,15 +197,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menuPlay_navigate = QtWidgets.QMenu(self.menubar)
         self.menuPlay_navigate.setObjectName("menuPlay_navigate")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionsiganl_1 = QtWidgets.QAction(MainWindow)
-        self.actionsiganl_1.setObjectName("actionsiganl_1")
-        self.actionsignal_2 = QtWidgets.QAction(MainWindow)
-        self.actionsignal_2.setObjectName("actionsignal_2")
-        self.actionsignal_3 = QtWidgets.QAction(MainWindow)
-        self.actionsignal_3.setObjectName("actionsignal_3")
+
+        self.actionOpen = QtWidgets.QAction(MainWindow)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("search.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionOpen.setIcon(icon9)
+        self.actionOpen.setObjectName("actionOpen")
+        
         self.actionzoom_in = QtWidgets.QAction(MainWindow)
         icon10 = QtGui.QIcon()
         icon10.addPixmap(QtGui.QPixmap("zoom-in_1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -231,11 +229,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         icon14.addPixmap(QtGui.QPixmap("pause-button.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionPause.setIcon(icon14)
         self.actionPause.setObjectName("actionPause")
-        self.actionStop = QtWidgets.QAction(MainWindow)
-        icon15 = QtGui.QIcon()
-        icon15.addPixmap(QtGui.QPixmap("rubber.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionStop.setIcon(icon15)
-        self.actionStop.setObjectName("actionStop")
+        
         self.actionBackward = QtWidgets.QAction(MainWindow)
         icon16 = QtGui.QIcon()
         icon16.addPixmap(QtGui.QPixmap("backward.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -251,10 +245,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         icon18.addPixmap(QtGui.QPixmap("pdf-file.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSave_as_pdf.setIcon(icon18)
         self.actionSave_as_pdf.setObjectName("actionSave_as_pdf")
-        self.menuopen.addAction(self.actionsiganl_1)
-        self.menuopen.addAction(self.actionsignal_2)
-        self.menuopen.addAction(self.actionsignal_3)
-        self.menuFile.addAction(self.menuopen.menuAction())
+
+        self.menuFile.addAction(self.actionOpen)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSave_as_pdf)
         self.menuEdit.addAction(self.actionzoom_in)
@@ -262,7 +254,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menuSignal_tools.addAction(self.actionSpectrogram)
         self.menuPlay_navigate.addAction(self.actionPlay)
         self.menuPlay_navigate.addAction(self.actionPause)
-        self.menuPlay_navigate.addAction(self.actionStop)
         self.menuPlay_navigate.addSeparator()
         self.menuPlay_navigate.addAction(self.actionBackward)
         self.menuPlay_navigate.addAction(self.actionForward)
@@ -270,28 +261,20 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuPlay_navigate.menuAction())
         self.menubar.addAction(self.menuSignal_tools.menuAction())
-        self.signal_1.hide()
-        self.check_1.hide()
-        self.spectro_1.hide()
-        self.signal_2.hide()
-        self.check_2.hide()
-        self.spectro_2.hide() 
-        self.signal_3.hide()
-        self.check_3.hide()
-        self.spectro_3.hide()
-       
+        self.signals[0].hide()
+        self.checkBox[0].hide()
+        self.spectrogram[0].hide()
+        self.signals[1].hide()
+        self.checkBox[1].hide()
+        self.spectrogram[1].hide() 
+        self.signals[2].hide()
+        self.checkBox[2].hide()
+        self.spectrogram[2].hide()
     
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.r1=300
-        self.r2=300
-        self.r3=300
-        self.data1=0
-        self.data2=0
-        self.data3=0
-        self.actionsiganl_1.triggered.connect(lambda:self.opensignal1())
-        self.actionsignal_2.triggered.connect(lambda:self.opensignal2())
-        self.actionsignal_3.triggered.connect(lambda:self.opensignal3())
+        self.actionOpen.triggered.connect(lambda:self.opensignal())
+
         self.actionzoom_in.triggered.connect(lambda:self.zoomin())
         self.actionzoom_out.triggered.connect(lambda:self.zoomout())
         self.actionSave_as_pdf.triggered.connect(lambda:self.savepdf())
@@ -300,242 +283,203 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionSpectrogram.triggered.connect(lambda:self.spectro())
         self.actionPlay.triggered.connect(lambda:self.playy())
         self.actionPause.triggered.connect(lambda:self.pausee())
-        self.actionStop.triggered.connect(lambda:self.clearr())
-
+    
         self.Zoom_in.clicked.connect(lambda:self.zoomin())
         self.zoom_out.clicked.connect(lambda:self.zoomout())
         self.left.clicked.connect(lambda:self.scrlleft())
         self.right.clicked.connect(lambda:self.scrlright())
         self.pause.clicked.connect(lambda:self.pausee())
         self.play.clicked.connect(lambda:self.playy())
-        self.clear.clicked.connect(lambda:self.clearr())
+        self.open.clicked.connect(lambda:self.opensignal())
         self.save.clicked.connect(lambda:self.savepdf())
         self.spec.clicked.connect(lambda:self.spectro())
 
 
 
-    def readsignal1(self):
-        self.fname1=QtGui.QFileDialog.getOpenFileName(self,'open txt or CSV or xls',os.getenv('home'),"xls(*.xls) ;; text(*.txt) ;; csv(*.csv)")
-        path=self.fname1[0]
-        self.data1=np.genfromtxt(path)
-        
-
-    def readsignal2(self):
-        self.fname2=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home')," text(*.txt) ;;csv(*.csv) ;; xls(*.xls)")
-        path=self.fname2[0]
-        self.data2=np.genfromtxt(path)
-
-    def readsignal3(self):
-        self.fname3=QtGui.QFileDialog.getOpenFileName(self,'open only txt or CSV or xls',os.getenv('home'),"csv(*.csv) ;;  text(*.txt) ;; xls(*.xls)")
-        path=self.fname3[0]
-        self.data3=np.genfromtxt(path)
-
-
-    def opensignal1(self):
-        self.readsignal1()
-        self.h1 =len(self.data1)
-        self.n1 = 0
-        self.data_line1 = self.signal_1.plot(self.data1, name="mode2")
-        self.pen = pg.mkPen(color=(255, 0, 0))
-        # Set timer
-        self.timer1 = pg.QtCore.QTimer()
-        # Timer signal binding update_data function
-        self.timer1.timeout.connect(self.update_data)
-        # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        self.timer1.start(50)
-       # self.timer1.start(50)
-        self.signal_1.show()
-        self.check_1.show()
-        self.check_1.setChecked(True)
-        # self.Viewsig_1.plotItem.setXRange(min(self.timer, default=0)+self.x)
-    def opensignal2(self):
-        self.readsignal2()     
-        self.h2 =len(self.data2)
-        self.n2 = 0
-        self.data_line2 = self.signal_2.plot(self.data2, name="mode2")
-        self.pen = pg.mkPen(color=(0, 255, 0))
-        # Set timer
-        self.timer2 = pg.QtCore.QTimer()
-        # Timer signal binding update_data function
-        self.timer2.timeout.connect(self.update_data2)
-        # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        self.timer2.start(50)
-        self.signal_2.show()
-        self.check_2.show()
-        self.check_2.setChecked(True)
-
+    def readsignal(self):
+        self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',os.getenv('home'),"xls(*.xls) ;; text(*.txt) ;; csv(*.csv)")
+        path=self.fname[0]
+        self.data.append(np.genfromtxt(path))
     
-    def opensignal3(self):
-        self.readsignal3()   
-        self.h3 =len(self.data3)
-        self.n3 = 0
-        self.data_line3 = self.signal_3.plot(self.data3, name="mode2")
-        self.pen = pg.mkPen(color=(0, 0, 255))
-        # Set timer
-        self.timer3 = pg.QtCore.QTimer()
+    def opensignal(self):
+        self.readsignal()
+        self.counter+=1
+        self.n.append(0)
+        self.nn.append(0)
+        self.data_line.append(self.signals[self.counter % 3].plot(self.data[self.counter], name="mode2"))
+        self.pen = pg.mkPen(color=(255, 0, 0))
+        # Set timer 
+        self.timer.append(pg.QtCore.QTimer())
         # Timer signal binding update_data function
-        self.timer3.timeout.connect(self.update_data3)
+        x = self.counter
+        if x%3 == 0:
+            self.timer[x].timeout.connect(lambda: self.update_data1(x))
+            self.timer[x].start(50)
+        if x%3 == 1:
+            self.timer[x].timeout.connect(lambda: self.update_data2(x)) 
+            self.timer[x].start(50)
+        if x%3 == 2:
+            self.timer[x].timeout.connect(lambda: self.update_data3(x))
+            self.timer[x].start(50)
         # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        self.timer3.start(50)
-        self.signal_3.show()
-        self.check_3.show()
-        self.check_3.setChecked(True)
+        #self.timer1.start(50)
+        self.signals[x%3].show()
+        self.checkBox[x%3].show()
+        self.checkBox[x%3].setChecked(True)
       
     # Data shift left
-    def update_data(self):
-        if self.n1 < self.h1 :
-            self.n1 += 10  
-            self.data_line1.setData(self.data1[0 : 100+self.n1])
-            self.signal_1.plotItem.setXRange(0+self.n1,self.r1+self.n1 , padding=0)
+    def update_data1(self,index):
+        if self.n[index] < len(self.data[index]) :
+            if self.n[index] < 1000 :    
+                self.n[index] += 10  
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+            
+            else :
+                self.nn[index] +=  10
+                self.n[index] += 10 
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+            self.z[index] = 1
+            
         else :
-            self.data_line1.setData(self.data1[0 : 100+self.n1])
-            self.signal_1.plotItem.setXRange(0 , self.h1 , padding=0)
+            self.data_line[index].setData(self.data[index][0 : self.n[index]])
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
 
-    #Data shift left
-    def update_data2(self):
-        if self.n2< self.h2 :
-            self.n2 += 10  
-            self.data_line2.setData(self.data2[0 : 100+self.n2])
-            self.signal_2.plotItem.setXRange(0+self.n2,self.r2+self.n2, padding=0)
+    def update_data2(self,index):
+        if self.n[index] < len(self.data[index]) :
+            if self.n[index] < 1000 :    
+                self.n[index] += 10  
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+            
+            else :
+                self.nn[index] +=  10
+                self.n[index] += 10 
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+            self.z[index] = 1
+            
         else :
-            self.data_line2.setData(self.data1[0 : 100+self.n2])
-            self.signal_2.plotItem.setXRange(0 , self.h2 , padding=0)
-  
-    #Data shift left
-    def update_data3(self):
-        if self.n3< self.h3 :
-            self.n3 += 10  
-            self.data_line3.setData(self.data3[0 : 100+self.n3])
-            self.signal_3.plotItem.setXRange(0+self.n3,self.r3+self.n3, padding=0)
+            self.data_line[index].setData(self.data[index][0 : self.n[index]])
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
+
+    def update_data3(self,index):
+        if self.n[index] < len(self.data[index]) :
+            if self.n[index] < 1000 :    
+                self.n[index] += 10  
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+            
+            else :
+                self.nn[index] +=  10
+                self.n[index] += 10 
+                self.data_line[index].setData(self.data[index][0 : self.n[index]])
+                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+            self.z[index] = 1
+            
         else :
-            self.data_line3.setData(self.data3[0 : 100+self.n3])
-            self.signal_3.plotItem.setXRange(0 , self.h3 , padding=0)
-
-
-########################
-
+            self.data_line[index].setData(self.data[index][0 : self.n[index]])
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
 
     def spectro(self):
-        if (self.check_1.isChecked()==True):
-            self.spectro_1.show()
-            plt.specgram(self.data1, Fs= 250        )
-            plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
-            self.spectro_1.setPixmap(QtGui.QPixmap('spectro1.png'))
-            plt.close(None)
+        index = (len(self.data) - 1) - ((len(self.data)-1)%3)
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.spectrogram[i].show()
+                if i==0:
+                    plt.specgram(self.data[index], Fs= 250 )
+                elif i == 1:    
+                    if (len(self.data ) - 1 - index >= 1):
+                        plt.specgram(self.data[index + 1], Fs= 250 )
+                    else:
+                        plt.specgram(self.data[index - 2], Fs= 250 )
 
-        if (self.check_2.isChecked()==True):
-            self.spectro_2.show()
-            plt.specgram(self.data2, Fs= 250)
-            plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
-            self.spectro_2.setPixmap(QtGui.QPixmap('spectro2.png'))
-            plt.close(None)
+                else:
+                    if (len(self.data) - 1 - index == 2):
+                        plt.specgram(self.data[index + 2], Fs= 250 )
 
-        if (self.check_3.isChecked()==True):
-            self.spectro_3.show()
-            plt.specgram(self.data3, Fs= 250)
-            plt.savefig('spectro3.png', dpi=300, bbox_inches='tight')
-            self.spectro_3.setPixmap(QtGui.QPixmap('spectro3.png'))
-            plt.close(None)
-            
-########################
+                    else:
+                        plt.specgram(self.data[index - 1], Fs= 250 )
+                plt.savefig('spectro'+str(i)+'.png', dpi=300, bbox_inches='tight')
+                self.spectrogram[i].setPixmap(QtGui.QPixmap('spectro'+str(i)+'.png'))
+                plt.close(None)
 
     def pausee(self):
-        if (self.check_1.isChecked()==True):
-            if self.timer1.isActive():
-                self.timer1.stop()
-        if (self.check_2.isChecked()==True):
-            if self.timer2.isActive():
-                self.timer2.stop()
-        if (self.check_3.isChecked()==True):
-            if self.timer3.isActive():
-                self.timer3.stop()
-    
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                if self.timer[i].isActive():
+                    self.timer[i].stop()
+
     def playy(self):
-        if (self.check_1.isChecked()==True):
-            if self.timer1.isActive()==False:
-                self.timer1.start()
-        if (self.check_2.isChecked()==True):
-            if self.timer2.isActive()==False:
-                self.timer2.start()
-        if (self.check_3.isChecked()==True):
-            if self.timer3.isActive()==False:
-                self.timer3.start()
-     
-        
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                if self.timer[i].isActive()==False:
+                    self.timer[i].start()
         
     def zoomin(self):
-        if (self.check_1.isChecked()==True):
-            self.signal_1.plotItem.getViewBox().scaleBy(x=0.5,y=1)
-            self.r1=self.r1*0.5
-        if (self.check_2.isChecked()==True):
-            self.signal_2.plotItem.getViewBox().scaleBy(x=0.5,y=1)  
-            self.r2=self.r2*0.5
-        if (self.check_3.isChecked()==True):
-            self.signal_3.plotItem.getViewBox().scaleBy(x=0.5,y=1)
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.signals[i].plotItem.getViewBox().scaleBy(x=0.5,y=1)
+                self.r[i]=self.r[i]*0.5
+                self.z[i] = self.z[i] * 0.5
             
     def zoomout(self):
-        if (self.check_1.isChecked()==True):
-            self.signal_1.plotItem.getViewBox().scaleBy(x=2,y=1)
-            self.r1=self.r1*2
-        if (self.check_2.isChecked()==True):
-            self.signal_2.plotItem.getViewBox().scaleBy(x=2,y=1)
-            self.r2=self.r2*2  
-        if (self.check_3.isChecked()==True):
-            self.signal_3.plotItem.getViewBox().scaleBy(x=2,y=1)
-            self.r3=self.r3*2
-
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.signals[i].plotItem.getViewBox().scaleBy(x=2,y=1)
+                self.r[i]=self.r[i]*2
+                self.z[i] = self.z[i] * 2
+      
     def scrlleft(self):
-        if (self.check_1.isChecked()==True):
-            self.signal_1.plotItem.getViewBox().translateBy(x=-100,y=0)
-        if (self.check_2.isChecked()==True):
-            self.signal_2.plotItem.getViewBox().translateBy(x=-100,y=0)  
-        if (self.check_3.isChecked()==True):
-            self.signal_3.plotItem.getViewBox().translateBy(x=-100,y=0)
-
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.signals[i].plotItem.getViewBox().translateBy(x=-100,y=0)
+      
     def scrlright(self):
-        if (self.check_1.isChecked()==True):
-            self.signal_1.plotItem.getViewBox().translateBy(x=100,y=0)
-        if (self.check_2.isChecked()==True):
-            self.signal_2.plotItem.getViewBox().translateBy(x=100,y=0)  
-        if (self.check_3.isChecked()==True):
-            self.signal_3.plotItem.getViewBox().translateBy(x=100,y=0)
-    # else:
-    def clearr(self):
-        if (self.check_1.isChecked()==True):
-            self.timer1=None
-            self.data_line1.setData(self.data1[0 : 100])
-            self.signal_1.clear()
-            self.spectro_1.clear()
-               
-        if (self.check_2.isChecked()==True):
-            self.signal_2.clear()
-            self.spectro_2.hide()
-            self.timer2= None
-            self.data_line2.setData(self.data1[0 : 100])
-        if (self.check_3.isChecked()==True):
-            self.signal_3.clear()
-            self.spectro_3.hide()
-            self.timer3= None
-            self.data_line3.setData(self.data1[0 : 100])
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.signals[i].plotItem.getViewBox().translateBy(x=100,y=0)
 
+#     
     def savepdf(self):
         fig=plt.figure(figsize=(1000, 1000))
-        if (self.check_1.isChecked()==True):
-            plt.subplot(3,2,1)
-            plt.plot(self.data1,linewidth=0.5,scalex=True)
-            plt.subplot(3,2,2)
-            plt.specgram(self.data1, Fs= 250)
-        if (self.check_2.isChecked()==True):
-            plt.subplot(3,2,3)
-            plt.plot(self.data2,linewidth=0.5,scalex=True)
-            plt.subplot(3,2,4)
-            plt.specgram(self.data2, Fs= 250)
-        if (self.check_3.isChecked()==True):
-            plt.subplot(3,2,5)
-            plt.plot(self.data3,linewidth=0.5,scalex=True)
-            plt.subplot(3,2,6)
-            plt.specgram(self.data3, Fs= 250)
+        index = (len(self.data) - 1) - ((len(self.data)-1)%3)
+        spectrogramData = []
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+    
+                if i == 0:
+                    plt.subplot(3,2,1)
+                    spectrogramData = list(self.data[index][0:]) 
+                    plt.plot(spectrogramData,linewidth=0.5,scalex=True)
+                    plt.subplot(3,2,2)
+                elif i == 1:   
+                     
+                    if (len(self.data ) - 1 - index >= 1):
+                        plt.subplot(3,2,3)
+                        spectrogramData = list(self.data[index+1][0:])
+                        plt.plot(spectrogramData,linewidth=0.5,scalex=True)
+                        plt.subplot(3,2,4)
+                    else:
+                        plt.subplot(3,2,3)
+                        spectrogramData = list(self.data[index-2][0:])
+                        plt.plot(spectrogramData,linewidth=0.5,scalex=True)
+                        plt.subplot(3,2,4)
+                else:
+                    if (len(self.data) - 1 - index == 2):
+                        plt.subplot(3,2,5)
+                        spectrogramData = list(self.data[index+2][0:])
+                        plt.plot(spectrogramData,linewidth=0.5,scalex=True)
+                        plt.subplot(3,2,6)
+                    else:
+                        plt.subplot(3,2,5)
+                        spectrogramData = list(self.data[index-1][0:])
+                        plt.plot(spectrogramData,linewidth=0.5,scalex=True)
+                        plt.subplot(3,2,6)
+                plt.specgram(spectrogramData, Fs= 250)
 
+      
         plt.subplots_adjust(bottom=0.1,right=0.9,top=1.0)
         plt.show()
         fn,_=QtWidgets.QFileDialog.getSaveFileName(self,"Export PDF",None,"PDF files(.pdf);;AllFiles()")
@@ -547,23 +491,19 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.check_2.setText(_translate("MainWindow", "signal-2"))
-        self.check_2.setShortcut(_translate("MainWindow", "2"))
-        self.check_3.setText(_translate("MainWindow", "signal-3"))
-        self.check_3.setShortcut(_translate("MainWindow", "3"))
-        self.check_1.setText(_translate("MainWindow", "signal-1"))
-        self.check_1.setShortcut(_translate("MainWindow", "1"))
+        self.checkBox[1].setText(_translate("MainWindow", "signal-2"))
+        self.checkBox[1].setShortcut(_translate("MainWindow", "2"))
+        self.checkBox[2].setText(_translate("MainWindow", "signal-3"))
+        self.checkBox[2].setShortcut(_translate("MainWindow", "3"))
+        self.checkBox[0].setText(_translate("MainWindow", "signal-1"))
+        self.checkBox[0].setShortcut(_translate("MainWindow", "1"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuopen.setTitle(_translate("MainWindow", "Open"))
+        
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuSignal_tools.setTitle(_translate("MainWindow", "Signal tools"))
         self.menuPlay_navigate.setTitle(_translate("MainWindow", "Play and navigate "))
-        self.actionsiganl_1.setText(_translate("MainWindow", "siganl-1"))
-        self.actionsiganl_1.setShortcut(_translate("MainWindow", "Ctrl+1"))
-        self.actionsignal_2.setText(_translate("MainWindow", "signal-2"))
-        self.actionsignal_2.setShortcut(_translate("MainWindow", "Ctrl+2"))
-        self.actionsignal_3.setText(_translate("MainWindow", "signal-3"))
-        self.actionsignal_3.setShortcut(_translate("MainWindow", "Ctrl+3"))
+        self.actionOpen.setText(_translate("MainWindow", "Open"))
+        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+o"))
         self.actionzoom_in.setText(_translate("MainWindow", "Zoom-in"))
         self.actionzoom_in.setShortcut(_translate("MainWindow", "Up"))
         self.actionzoom_out.setText(_translate("MainWindow", "Zoom-out"))
@@ -574,8 +514,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionPlay.setShortcut(_translate("MainWindow", "Space"))
         self.actionPause.setText(_translate("MainWindow", "Pause"))
         self.actionPause.setShortcut(_translate("MainWindow", "Shift+Space"))
-        self.actionStop.setText(_translate("MainWindow", "Clear"))
-        self.actionStop.setShortcut(_translate("MainWindow", "Esc"))
         self.actionBackward.setText(_translate("MainWindow", "Backward"))
         self.actionBackward.setShortcut(_translate("MainWindow", "Left"))
         self.actionForward.setText(_translate("MainWindow", "Forward"))
