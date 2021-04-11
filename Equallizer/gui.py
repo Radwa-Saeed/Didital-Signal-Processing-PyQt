@@ -8,9 +8,28 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets ,QtPrintSupport
+import pandas as pd
+import numpy as np
+import os
+import sys
+from pyqtgraph import PlotWidget ,PlotItem
+import pathlib
+import pyqtgraph as pg 
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from scipy.fftpack import fft
+import scipy.fftpack as fftpk
+import scipy
+from scipy.io import wavfile
+import math
 
-
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtGui.QMainWindow):
+# class Ui_MainWindow(object):
 
     fftband1=[]
     fftband2=[]
@@ -474,6 +493,8 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.right, self.Zoom_in)
         MainWindow.setTabOrder(self.Zoom_in, self.pause)
         MainWindow.setTabOrder(self.pause, self.play)
+        self.Zoom_in.clicked.connect(lambda:self.opensignal())
+        self.zoom_out.clicked.connect(lambda:self.band1())
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -559,8 +580,8 @@ class Ui_MainWindow(object):
 
     def readsignal(self):
         self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
-        path=self.fname[0]
-        self.fs, self.data = wavfile.read(path)
+        self.path=self.fname[0]
+        self.fs, self.data = wavfile.read(self.path)
 
     def opensignal(self):
         self.readsignal()
@@ -575,8 +596,24 @@ class Ui_MainWindow(object):
         plt.ylabel('Amplitude')
         plt.show()
 
-     def bands(self): 
-        self.fs, self.data = wavfile.read(path)
+    # def bands(self): 
+    #     self.fs, self.data = wavfile.read(self.path)
+    #     FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
+    #     freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     freq1=[]
+    #     FFT1=[]
+    #     freq1=freqs[range(len(FFT)//2)]
+    #     FFT1=FFT[range(len(FFT)//2)]
+    #     fftband1=FFT1[range(math.floor(0.2*len(FFT1)))]
+    #     fftband2= FFT1[range(math.ceil(0.2*len(FFT1)), math.floor(0.4*len(FFT1)))]
+    #     fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
+    #     fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
+    #     fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
+
+    def band1(self): 
+        #self.bands()
+        self.fs, self.data = wavfile.read(self.path)
+        FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
         freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
         freq1=[]
         FFT1=[]
@@ -587,9 +624,6 @@ class Ui_MainWindow(object):
         fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
         fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
         fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
-
-    def band1(self): 
-        self.bands()
         fftband11= 20* fftband1
         band1= fftband11.tolist()
         band2= fftband2.tolist()
