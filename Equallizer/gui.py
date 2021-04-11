@@ -11,6 +11,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
+
+    fftband1=[]
+    fftband2=[]
+    fftband3=[]
+    fftband4=[]
+    fftband5=[]
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(984, 894)
@@ -550,6 +557,52 @@ class Ui_MainWindow(object):
         self.actionColor_Palette_5.setText(_translate("MainWindow", "Color Palette 5"))
         self.actionColor_Palette_5.setShortcut(_translate("MainWindow", "S, 5"))
 
+    def readsignal(self):
+        self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
+        path=self.fname[0]
+        self.fs, self.data = wavfile.read(path)
+
+    def opensignal(self):
+        self.readsignal()
+        FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
+        freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+        freq1=[]
+        FFT1=[]
+        freq1=freqs[range(len(FFT)//2)]
+        FFT1=FFT[range(len(FFT)//2)]
+        plt.plot(freqs[range(len(FFT)//2)], FFT[range(len(FFT)//2)])                                                          
+        plt.xlabel('Frequency (Hz)')
+        plt.ylabel('Amplitude')
+        plt.show()
+
+     def bands(self): 
+        self.fs, self.data = wavfile.read(path)
+        freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+        freq1=[]
+        FFT1=[]
+        freq1=freqs[range(len(FFT)//2)]
+        FFT1=FFT[range(len(FFT)//2)]
+        fftband1=FFT1[range(math.floor(0.2*len(FFT1)))]
+        fftband2= FFT1[range(math.ceil(0.2*len(FFT1)), math.floor(0.4*len(FFT1)))]
+        fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
+        fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
+        fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
+
+    def band1(self): 
+        self.bands()
+        fftband11= 20* fftband1
+        band1= fftband11.tolist()
+        band2= fftband2.tolist()
+        band3= fftband3.tolist()
+        band4= fftband4.tolist()
+        band5= fftband5.tolist()
+        newfft1= band1+band2+band3+band4+band5
+        plt.plot(freq1[range(len(newfft1))], newfft1) 
+        plt.xlabel('Frequency (Hz)')
+        plt.ylabel('Amplitude')
+        plt.show()
+
+    
 
 if __name__ == "__main__":
     import sys
