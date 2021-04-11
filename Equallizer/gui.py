@@ -5,12 +5,33 @@
 # Created by: PyQt5 UI code generator 5.12.3
 #
 # WARNING! All changes made in this file will be lost!
+from PyQt5 import QtCore, QtGui, QtWidgets ,QtPrintSupport
+import pandas as pd
+import numpy as np
+import os
+import sys
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from pyqtgraph import PlotWidget ,PlotItem
+
+import pathlib
+import pyqtgraph as pg 
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from scipy.fftpack import fft
+import scipy.fftpack as fftpk
+import scipy
+
+from scipy.io import wavfile
+import math
 
 
-class Ui_MainWindow(object):
+
+class Ui_MainWindow(QtGui.QMainWindow):
 
     fftband1=[]
     fftband2=[]
@@ -556,7 +577,7 @@ class Ui_MainWindow(object):
         self.actionColor_Palette_4.setShortcut(_translate("MainWindow", "S, 4"))
         self.actionColor_Palette_5.setText(_translate("MainWindow", "Color Palette 5"))
         self.actionColor_Palette_5.setShortcut(_translate("MainWindow", "S, 5"))
-
+        self.actionOpen.triggered.connect(lambda:self.opensignal())
     def readsignal(self):
         self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
         path=self.fname[0]
@@ -564,7 +585,7 @@ class Ui_MainWindow(object):
 
     def opensignal(self):
         self.readsignal()
-        FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
+        FFT = abs(fft(self.data)) #the y axis of fft plot (amplitudes)
         freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
         freq1=[]
         FFT1=[]
@@ -575,8 +596,9 @@ class Ui_MainWindow(object):
         plt.ylabel('Amplitude')
         plt.show()
 
-     def bands(self): 
-        self.fs, self.data = wavfile.read(path)
+    def bands(self): 
+        self.readsignal()
+        # self.fs, self.data = wavfile.read(path)
         freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
         freq1=[]
         FFT1=[]
