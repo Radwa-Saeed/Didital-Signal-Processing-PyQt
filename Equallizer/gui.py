@@ -21,11 +21,12 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from scipy.fftpack import fft
+from scipy.fftpack import rfft
 import scipy.fftpack as fftpk
 import scipy
 from scipy.io import wavfile
 import math
+import librosa
 
 class Ui_MainWindow(QtGui.QMainWindow):
 # class Ui_MainWindow(object):
@@ -49,7 +50,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         MainWindow.setDockOptions(QtWidgets.QMainWindow.AllowTabbedDocks|QtWidgets.QMainWindow.AnimatedDocks)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.signal_1 = QtWidgets.QGraphicsView(self.centralwidget)
+        self.signal_1 = PlotWidget(self.centralwidget)
         self.signal_1.setGeometry(QtCore.QRect(22, 39, 461, 192))
         self.signal_1.setStyleSheet("background-color:rgb(0, 0, 0);")
         self.signal_1.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
@@ -60,7 +61,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spectro_1 = QtWidgets.QGraphicsView(self.centralwidget)
         self.spectro_1.setGeometry(QtCore.QRect(492, 39, 471, 192))
         self.spectro_1.setObjectName("spectro_1")
-        self.signal_3 = QtWidgets.QGraphicsView(self.centralwidget)
+        self.signal_3 = PlotWidget(self.centralwidget)
         self.signal_3.setGeometry(QtCore.QRect(20, 649, 461, 192))
         self.signal_3.setStyleSheet("background-color:rgb(0, 0, 0);")
         self.signal_3.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemBoundingRect)
@@ -576,28 +577,44 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionColor_Palette_4.setShortcut(_translate("MainWindow", "S, 4"))
         self.actionColor_Palette_5.setText(_translate("MainWindow", "Color Palette 5"))
         self.actionColor_Palette_5.setShortcut(_translate("MainWindow", "S, 5"))
-        self.actionOpen.triggered.connect(lambda:self.opensignal())
-    def readsignal(self):
-        self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
-        self.path=self.fname[0]
-        self.fs, self.data = wavfile.read(self.path)
-
-    def opensignal(self):
-        self.readsignal()
-        FFT = abs(fft(self.data)) #the y axis of fft plot (amplitudes)
-        freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        freq1=[]
-        FFT1=[]
-        freq1=freqs[range(len(FFT)//2)]
-        FFT1=FFT[range(len(FFT)//2)]
-        plt.plot(freqs[range(len(FFT)//2)], FFT[range(len(FFT)//2)])                                                          
-        plt.xlabel('Frequency (Hz)')
-        plt.ylabel('Amplitude')
-        plt.show()
-
-    # def bands(self): 
+    #     self.actionOpen.triggered.connect(lambda:self.opensignal())
+    # def readsignal(self):
+    #     self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
+    #     self.path=self.fname[0]
     #     self.fs, self.data = wavfile.read(self.path)
-    #     FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
+
+    # def opensignal(self):
+    #     self.readsignal()
+    #     FFT = abs(fft(self.data)) #the y axis of fft plot (amplitudes)
+    #     freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     freq1=[]
+    #     FFT1=[]
+    #     freq1=freqs[range(len(FFT)//2)]
+    #     FFT1=FFT[range(len(FFT)//2)]
+    #     # amp of fft 
+    #     plt.plot(freqs[range(len(FFT)//2)], FFT[range(len(FFT)//2)])                                                          
+    #     plt.xlabel('Frequency (Hz)')
+    #     plt.ylabel('Amplitude')
+    #     plt.show()
+
+    # # def bands(self): 
+    # #     self.fs, self.data = wavfile.read(self.path)
+    # #     FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
+    # #     freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    # #     freq1=[]
+    # #     FFT1=[]
+    # #     freq1=freqs[range(len(FFT)//2)]
+    # #     FFT1=FFT[range(len(FFT)//2)]
+    # #     fftband1=FFT1[range(math.floor(0.2*len(FFT1)))]
+    # #     fftband2= FFT1[range(math.ceil(0.2*len(FFT1)), math.floor(0.4*len(FFT1)))]
+    # #     fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
+    # #     fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
+    # #     fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
+
+    # def band1(self): 
+    #     #self.bands()
+    #     self.fs, self.data = wavfile.read(self.path)
+    #     FFT = abs(fft(self.data)) #the y axis of fft plot (amplitudes)
     #     freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
     #     freq1=[]
     #     FFT1=[]
@@ -608,33 +625,77 @@ class Ui_MainWindow(QtGui.QMainWindow):
     #     fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
     #     fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
     #     fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
+    #     fftband11= 20* fftband1
+    #     band1= fftband11.tolist()
+    #     band2= fftband2.tolist()
+    #     band3= fftband3.tolist()
+    #     band4= fftband4.tolist()
+    #     band5= fftband5.tolist()
+    #     newfft1= band1+band2+band3+band4+band5
+    #     plt.plot(freq1[range(len(newfft1))], newfft1) 
+    #     plt.xlabel('Frequency (Hz)')
+    #     plt.ylabel('Amplitude')
+    #     plt.show()
+        self.actionOpen.triggered.connect(lambda:self.opensignal())
+        self.spect.clicked.connect(lambda:self.spectro())
+        self.save.clicked.connect(lambda:self.band1())
+        self.play.clicked.connect(lambda:self.Fourier())
+    def readsignal(self):
+        self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
+        self.path=self.fname[0]
+        self.data,self.fs = librosa.load(os.path.basename(self.path),sr = None, mono = True,offset = 0.0,duration = None)
 
-    def band1(self): 
-        #self.bands()
-        self.fs, self.data = wavfile.read(self.path)
-        FFT = abs(scipy.fft(self.data)) #the y axis of fft plot (amplitudes)
-        freqs = fftpk.fftfreq(len(FFT), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        freq1=[]
-        FFT1=[]
-        freq1=freqs[range(len(FFT)//2)]
-        FFT1=FFT[range(len(FFT)//2)]
-        fftband1=FFT1[range(math.floor(0.2*len(FFT1)))]
-        fftband2= FFT1[range(math.ceil(0.2*len(FFT1)), math.floor(0.4*len(FFT1)))]
-        fftband3= FFT1[range(math.ceil(0.4*len(FFT1)), math.floor(0.6*len(FFT1)))]
-        fftband4= FFT1[range(math.ceil(0.6*len(FFT1)), math.floor(0.8*len(FFT1)))]
-        fftband5= FFT1[range(math.ceil(0.8*len(FFT1)), math.floor(len(FFT1)))]
-        fftband11= 20* fftband1
-        band1= fftband11.tolist()
-        band2= fftband2.tolist()
-        band3= fftband3.tolist()
-        band4= fftband4.tolist()
-        band5= fftband5.tolist()
-        newfft1= band1+band2+band3+band4+band5
-        plt.plot(freq1[range(len(newfft1))], newfft1) 
+    def opensignal(self):
+        self.readsignal()
+        #self.pen = pg.mkpen(color=(255,0,0))
+        self.dataline= self.signal_3.plot(self.data)
+
+    # def spectro(self):
+
+    #     plt.specgram(self.data, Fs= 250 )
+    #     plt.savefig('spectro.png', dpi=300, bbox_inches='tight')
+    #     self.spectro_1.setPixmap(QtGui.QPixmap('spectro.png'))
+
+    def Fourier(self):
+        before=[]
+        self.readsignal()
+        # print(self.data)
+        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+        self.phase = np.angle(scipy.fft.rfft(self.data))
+        self.comp = scipy.fft.rfft(self.data) 
+        # for i in range (0,len(ft)):
+        #     # comp.append(ft[i]*(math.cos(phase[i]))+ft[i]*(math.sin(phase[i]))*1j)
+        #     comp.append(ft[i]*math.exp((phase[i]*360)/(2*math.pi)*1j))
+  
+        # lfr=list(freqs)
+        # print(comp)
+        # feq=1*max(lfr)/5.0
+        # # print(lfr)
+        print(self.freqs[-1])
+        print(list(self.freqs))
+        index1= list(self.freqs).index(1*max(self.freqs)/5)
+        index2=int(list(self.freqs).index(2*max(self.freqs)/5))
+        print(index1)
+        print(index2)
+        for i in range(index1,index2):
+            # comp[i]=20*ft[i]*math.exp((phase[i]*360)/(2*math.pi)*1j)
+            self.ft[i]*=10
+            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+        
+        self.m =scipy.fft.irfft(self.comp)
+        self.signal_1.plot(self.m)
+        # self.dataline= self.signal_3.plot(before)
+        # freq1=[]
+        # FFT1=[]
+        # freq1=freqs[range(len(FFT))]
+        # FFT1=FFT[range(len(FFT))]
+        # print(len(freqs))
+        # amp of fft 
+        # plt.plot(freqs[range(len(m))], ft[range(len(m))])                                                          
         plt.xlabel('Frequency (Hz)')
         plt.ylabel('Amplitude')
         plt.show()
-
     
 
 if __name__ == "__main__":
