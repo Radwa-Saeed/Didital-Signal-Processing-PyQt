@@ -392,6 +392,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.equalizers[8].valueChanged.connect(lambda:self.update(8))
         self.equalizers[9].valueChanged.connect(lambda:self.update(9))
         self.comboBox.currentTextChanged.connect(lambda:self.spectro())
+        self.comboBox.currentTextChanged.connect(lambda:self.FourierSpectrogram())
 
 
 
@@ -437,6 +438,11 @@ class Ui_MainWindow(QtGui.QMainWindow):
         #     self.timer[x].start(50)
         # # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
         # #self.timer1.start(50)
+        plt.specgram(self.data, Fs= 250 ,cmap=self.comboBox.currentText())
+        plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
+        self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro1.png'))
+        plt.close(None)
+        self.spectrogram[0].show() 
         self.signals[x%3].show()
         self.checkBox[x%3].show()
         self.checkBox[x%3].setChecked(True)
@@ -452,14 +458,18 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.comp = scipy.fft.rfft(self.data)
         # print(self.comp.shape)
 
+        
+        
+
+
     def update(self,index):
         index1= list(self.freqs).index(0*max(self.freqs)/10)
         index2=list(self.freqs).index(max(self.freqs)/10)
         # print(max(self.freqs))
-        print(list(self.freqs).index(max(self.freqs)))
-        # print(max(self.freqs))
-        print(index1)
-        print(index2)
+        # print(list(self.freqs).index(max(self.freqs)))
+        # # print(max(self.freqs))
+        # print(index1)
+        # print(index2)
 
         # print(self.equalizers[index].value())
         
@@ -472,10 +482,18 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.m =scipy.fft.irfft(self.comp)
         # print(self.m[5001])
         # print(self.m.shape)
-        self.signals[0].clear()
-        self.signals[0].plot(self.m)
+        self.FourierSpectrogram()
+        self.signals[2].clear()
+        self.signals[2].plot(self.m)
+        self.signals[2].show()
+    def FourierSpectrogram(self) :  
+        print(self.comboBox.currentText())
+        plt.specgram(self.m, Fs= 250 ,cmap=self.comboBox.currentText())
+        plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
+        self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro2.png'))
+        plt.close(None)
+        self.spectrogram[2].show() 
         
-        # self.signals[2].show()
 
     # Data shift left
     def update_data1(self,index):
