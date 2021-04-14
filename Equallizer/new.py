@@ -31,12 +31,13 @@ import librosa
 
 class Ui_MainWindow(QtGui.QMainWindow):
 # class Ui_MainWindow(object):
-
+    gain=[]
     fftband1=[]
     fftband2=[]
     fftband3=[]
     fftband4=[]
     fftband5=[]
+    equalizers=[]
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -143,15 +144,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.equalizer.setCheckable(False)
         self.equalizer.setChecked(False)
         self.equalizer.setObjectName("equalizer")
-        self.eq1 = QtWidgets.QSlider(self.centralwidget)
-        self.eq1.setGeometry(QtCore.QRect(81, 340, 22, 221))
-        self.eq1.setTabletTracking(False)
-        self.eq1.setMaximum(30)
-        self.eq1.setTracking(True)
-        self.eq1.setOrientation(QtCore.Qt.Vertical)
-        self.eq1.setInvertedAppearance(False)
-        self.eq1.setInvertedControls(False)
-        self.eq1.setObjectName("eq1")
+ 
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(60, 570, 55, 16))
         self.label_2.setTabletTracking(False)
@@ -160,101 +153,174 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.veq1.setGeometry(QtCore.QRect(90, 589, 55, 16))
         self.veq1.setTabletTracking(False)
         self.veq1.setObjectName("veq1")
-        self.eq2 = QtWidgets.QSlider(self.centralwidget)
-        self.eq2.setGeometry(QtCore.QRect(170, 340, 22, 221))
-        self.eq2.setTabletTracking(False)
-        self.eq2.setMaximum(30)
-        self.eq2.setPageStep(10)
-        self.eq2.setOrientation(QtCore.Qt.Vertical)
-        self.eq2.setObjectName("eq2")
-        self.eq3 = QtWidgets.QSlider(self.centralwidget)
-        self.eq3.setGeometry(QtCore.QRect(259, 340, 22, 221))
-        self.eq3.setTabletTracking(False)
-        self.eq3.setMaximum(30)
-        self.eq3.setOrientation(QtCore.Qt.Vertical)
-        self.eq3.setObjectName("eq3")
-        self.eq4 = QtWidgets.QSlider(self.centralwidget)
-        self.eq4.setGeometry(QtCore.QRect(348, 340, 22, 221))
-        self.eq4.setTabletTracking(False)
-        self.eq4.setMaximum(30)
-        self.eq4.setOrientation(QtCore.Qt.Vertical)
-        self.eq4.setObjectName("eq4")
-        self.eq5 = QtWidgets.QSlider(self.centralwidget)
-        self.eq5.setGeometry(QtCore.QRect(437, 340, 22, 221))
-        self.eq5.setTabletTracking(False)
-        self.eq5.setMaximum(30)
-        self.eq5.setOrientation(QtCore.Qt.Vertical)
-        self.eq5.setObjectName("eq5")
-        self.eq6 = QtWidgets.QSlider(self.centralwidget)
-        self.eq6.setGeometry(QtCore.QRect(526, 340, 22, 221))
-        self.eq6.setTabletTracking(False)
-        self.eq6.setMaximum(30)
-        self.eq6.setOrientation(QtCore.Qt.Vertical)
-        self.eq6.setObjectName("eq6")
-        self.eq7 = QtWidgets.QSlider(self.centralwidget)
-        self.eq7.setGeometry(QtCore.QRect(615, 340, 22, 221))
-        self.eq7.setTabletTracking(False)
-        self.eq7.setMaximum(30)
-        self.eq7.setOrientation(QtCore.Qt.Vertical)
-        self.eq7.setObjectName("eq7")
-        self.eq8 = QtWidgets.QSlider(self.centralwidget)
-        self.eq8.setGeometry(QtCore.QRect(700, 339, 22, 221))
-        self.eq8.setTabletTracking(False)
-        self.eq8.setMaximum(30)
-        self.eq8.setOrientation(QtCore.Qt.Vertical)
-        self.eq8.setObjectName("eq8")
-        self.eq9 = QtWidgets.QSlider(self.centralwidget)
-        self.eq9.setGeometry(QtCore.QRect(793, 340, 22, 221))
-        self.eq9.setTabletTracking(False)
-        self.eq9.setMaximum(30)
-        self.eq9.setOrientation(QtCore.Qt.Vertical)
-        self.eq9.setObjectName("eq9")
-        self.eq10 = QtWidgets.QSlider(self.centralwidget)
-        self.eq10.setGeometry(QtCore.QRect(882, 340, 22, 221))
-        self.eq10.setTabletTracking(False)
-        self.eq10.setMaximum(30)
-        self.eq10.setOrientation(QtCore.Qt.Vertical)
-        self.eq10.setObjectName("eq10")
-        self.eq1.setValue(1)
-        self.eq1.setTickPosition(QSlider.TicksRight)
-        self.eq1.setTickInterval(6)
 
-        self.eq2.setValue(1)
-        self.eq2.setTickPosition(QSlider.TicksRight)
-        self.eq2.setTickInterval(6)
+        # self.eq1 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq1.setGeometry(QtCore.QRect(81, 340, 22, 221))
+        # self.eq1.setTabletTracking(False)
+        # self.eq1.setMaximum(5)
+        # self.eq1.setTracking(True)
+        # self.eq1.setOrientation(QtCore.Qt.Vertical)
+        # self.eq1.setInvertedAppearance(False)
+        # self.eq1.setInvertedControls(False)
+        # self.eq1.setObjectName("eq1")
 
-        self.eq3.setValue(1)
-        self.eq3.setTickPosition(QSlider.TicksRight)
-        self.eq3.setTickInterval(6)
+        # self.eq1.setValue(1)
+        # self.eq1.setTickPosition(QSlider.TicksRight)
+        # self.eq1.setTickInterval(6)
 
-        self.eq4.setValue(1)
-        self.eq4.setTickPosition(QSlider.TicksRight)
-        self.eq4.setTickInterval(6)
+        # self.eq2 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq2.setGeometry(QtCore.QRect(170, 340, 22, 221))
+        # self.eq2.setTabletTracking(False)
+        # self.eq2.setMaximum(5)
+        # self.eq2.setPageStep(10)
+        # self.eq2.setOrientation(QtCore.Qt.Vertical)
+        # self.eq2.setObjectName("eq2")
 
-        self.eq5.setValue(1)
-        self.eq5.setTickPosition(QSlider.TicksRight)
-        self.eq5.setTickInterval(6)
+        # self.eq2.setValue(1)
+        # self.eq2.setTickPosition(QSlider.TicksRight)
+        # self.eq2.setTickInterval(6)
 
-        self.eq6.setValue(1)
-        self.eq6.setTickPosition(QSlider.TicksRight)
-        self.eq6.setTickInterval(6)
+        # self.eq3 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq3.setGeometry(QtCore.QRect(259, 340, 22, 221))
+        # self.eq3.setTabletTracking(False)
+        # self.eq3.setMaximum(5)
+        # self.eq3.setOrientation(QtCore.Qt.Vertical)
+        # self.eq3.setObjectName("eq3")
+        # self.eq3.setValue(1)
+        # self.eq3.setTickPosition(QSlider.TicksRight)
+        # self.eq3.setTickInterval(6)
 
-        self.eq7.setValue(1)
-        self.eq7.setTickPosition(QSlider.TicksRight)
-        self.eq7.setTickInterval(6)        
+        # self.eq4 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq4.setGeometry(QtCore.QRect(348, 340, 22, 221))
+        # self.eq4.setTabletTracking(False)
+        # self.eq4.setMaximum(5)
+        # self.eq4.setOrientation(QtCore.Qt.Vertical)
+        # self.eq4.setObjectName("eq4")
 
-        self.eq8.setValue(1)
-        self.eq8.setTickPosition(QSlider.TicksRight)
-        self.eq8.setTickInterval(6)        
+        # self.eq4.setValue(1)
+        # self.eq4.setTickPosition(QSlider.TicksRight)
+        # self.eq4.setTickInterval(6)
 
-        self.eq9.setValue(1)
-        self.eq9.setTickPosition(QSlider.TicksRight)
-        self.eq9.setTickInterval(6)        
 
-        self.eq10.setValue(1)
-        self.eq10.setTickPosition(QSlider.TicksRight)
-        self.eq10.setTickInterval(6)        
+        # self.eq5 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq5.setGeometry(QtCore.QRect(437, 340, 22, 221))
+        # self.eq5.setTabletTracking(False)
+        # self.eq5.setMaximum(5)
+        # self.eq5.setOrientation(QtCore.Qt.Vertical)
+        # self.eq5.setObjectName("eq5")
 
+        # self.eq5.setValue(1)
+        # self.eq5.setTickPosition(QSlider.TicksRight)
+        # self.eq5.setTickInterval(6)
+
+
+        # self.eq6 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq6.setGeometry(QtCore.QRect(526, 340, 22, 221))
+        # self.eq6.setTabletTracking(False)
+        # self.eq6.setMaximum(30)
+        # self.eq6.setOrientation(QtCore.Qt.Vertical)
+        # self.eq6.setObjectName("eq6")
+
+        # self.eq6.setValue(1)
+        # self.eq6.setTickPosition(QSlider.TicksRight)
+        # self.eq6.setTickInterval(6)
+
+        # self.eq7 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq7.setGeometry(QtCore.QRect(615, 340, 22, 221))
+        # self.eq7.setTabletTracking(False)
+        # self.eq7.setMaximum(30)
+        # self.eq7.setOrientation(QtCore.Qt.Vertical)
+        # self.eq7.setObjectName("eq7")
+
+        # self.eq7.setValue(1)
+        # self.eq7.setTickPosition(QSlider.TicksRight)
+        # self.eq7.setTickInterval(6)
+
+        # self.eq8 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq8.setGeometry(QtCore.QRect(700, 339, 22, 221))
+        # self.eq8.setTabletTracking(False)
+        # self.eq8.setMaximum(30)
+        # self.eq8.setOrientation(QtCore.Qt.Vertical)
+        # self.eq8.setObjectName("eq8")
+
+        # self.eq8.setValue(1)
+        # self.eq8.setTickPosition(QSlider.TicksRight)
+        # self.eq8.setTickInterval(6)
+
+
+
+        # self.eq9 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq9.setGeometry(QtCore.QRect(793, 340, 22, 221))
+        # self.eq9.setTabletTracking(False)
+        # self.eq9.setMaximum(30)
+        # self.eq9.setOrientation(QtCore.Qt.Vertical)
+        # self.eq9.setObjectName("eq9")
+
+        
+        # self.eq9.setValue(1)
+        # self.eq9.setTickPosition(QSlider.TicksRight)
+        # self.eq9.setTickInterval(6)
+
+        # self.eq10 = QtWidgets.QSlider(self.centralwidget)
+        # self.eq10.setGeometry(QtCore.QRect(882, 340, 22, 221))
+        # self.eq10.setTabletTracking(False)
+        # self.eq10.setMaximum(30)
+        # self.eq10.setOrientation(QtCore.Qt.Vertical)
+        # self.eq10.setObjectName("eq10")
+        
+        # self.eq10.setValue(1)
+        # self.eq10.setTickPosition(QSlider.TicksRight)
+        # self.eq10.setTickInterval(6)        
+
+        for i in range(0,10):
+            self.equalizers.append(QtWidgets.QSlider(self.centralwidget))
+
+            if i ==0:
+                self.equalizers[i].setGeometry(QtCore.QRect(81, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq1")
+            
+            elif i ==1:
+                self.equalizers[i].setGeometry(QtCore.QRect(170, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq2")
+            
+            elif i ==2:
+                self.equalizers[i].setGeometry(QtCore.QRect(259, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq3")
+            
+            elif i ==3:
+                self.equalizers[i].setGeometry(QtCore.QRect(348, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq4")
+            
+            elif i ==4:
+                self.equalizers[i].setGeometry(QtCore.QRect(437, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq5")
+            
+            elif i ==5:
+                self.equalizers[i].setGeometry(QtCore.QRect(526, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq6")
+            
+            elif i ==6:
+                self.equalizers[i].setGeometry(QtCore.QRect(615, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq7")
+            
+            elif i ==7:
+                self.equalizers[i].setGeometry(QtCore.QRect(700, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq8")
+            
+            elif i ==8:
+                self.equalizers[i].setGeometry(QtCore.QRect(793, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq9")
+            
+            else :
+                self.equalizers[i].setGeometry(QtCore.QRect(882, 340, 22, 221))
+                self.equalizers[i].setObjectName("eq10")
+
+            self.equalizers[i].setTabletTracking(False)
+            self.equalizers[i].setMaximum(5)
+            self.equalizers[i].setOrientation(QtCore.Qt.Vertical)
+            self.equalizers[i].setValue(1)
+            self.equalizers[i].setTickInterval(1)
+            
 
 
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
@@ -377,18 +443,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.horizontalSlider.raise_()
         self.sec.raise_()
         self.equalizer.raise_()
-        self.eq1.raise_()
+        # self.eq1.raise_()
         self.label_2.raise_()
         self.veq1.raise_()
-        self.eq2.raise_()
-        self.eq3.raise_()
-        self.eq4.raise_()
-        self.eq5.raise_()
-        self.eq6.raise_()
-        self.eq7.raise_()
-        self.eq8.raise_()
-        self.eq9.raise_()
-        self.eq10.raise_()
+        self.equalizers[0].raise_()
+        self.equalizers[1].raise_()
+        self.equalizers[2].raise_()
+        self.equalizers[3].raise_()
+        self.equalizers[4].raise_()
+        self.equalizers[5].raise_()
+        self.equalizers[6].raise_()
+        self.equalizers[7].raise_()
+        self.equalizers[8].raise_()
+        self.equalizers[9].raise_()
+        # self.eq2.raise_()
+        # self.eq3.raise_()
+        # self.eq4.raise_()
+        # self.eq5.raise_()
+        # self.eq6.raise_()
+        # self.eq7.raise_()
+        # self.eq8.raise_()
+        # self.eq9.raise_()
+        # self.eq10.raise_()
         self.label_4.raise_()
         self.veq2.raise_()
         self.label_6.raise_()
@@ -489,17 +565,17 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menubar.addAction(self.menuSignal_tools.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.eq10.valueChanged['int'].connect(self.veq10.setNum)
-        self.eq1.valueChanged['int'].connect(self.veq1.setNum)
-        self.eq6.valueChanged['int'].connect(self.veq6.setNum)
+        # self.eq10.valueChanged['int'].connect(self.veq10.setNum)
+        # self.eq1.valueChanged['int'].connect(self.veq1.setNum)
+        # self.eq6.valueChanged['int'].connect(self.veq6.setNum)
         self.horizontalSlider.valueChanged['int'].connect(self.sec.setNum)
-        self.eq2.valueChanged['int'].connect(self.veq2.setNum)
-        self.eq5.valueChanged['int'].connect(self.veq5.setNum)
-        self.eq9.valueChanged['int'].connect(self.veq9.setNum)
-        self.eq8.valueChanged['int'].connect(self.veq8.setNum)
-        self.eq7.valueChanged['int'].connect(self.veq7.setNum)
-        self.eq4.valueChanged['int'].connect(self.veq4.setNum)
-        self.eq3.valueChanged['int'].connect(self.veq3.setNum)
+        # self.eq2.valueChanged['int'].connect(self.veq2.setNum)
+        # self.eq5.valueChanged['int'].connect(self.veq5.setNum)
+        # self.eq9.valueChanged['int'].connect(self.veq9.setNum)
+        # self.eq8.valueChanged['int'].connect(self.veq8.setNum)
+        # self.eq7.valueChanged['int'].connect(self.veq7.setNum)
+        # self.eq4.valueChanged['int'].connect(self.veq4.setNum)
+        # self.eq3.valueChanged['int'].connect(self.veq3.setNum)
         self.comboBox.activated['QString'].connect(self.spectro_1.show)
         self.spect.clicked.connect(self.spectro_1.show)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -516,18 +592,18 @@ class Ui_MainWindow(QtGui.QMainWindow):
         MainWindow.setTabOrder(self.save, self.spect)
         MainWindow.setTabOrder(self.spect, self.spectro_1)
         MainWindow.setTabOrder(self.spectro_1, self.comboBox)
-        MainWindow.setTabOrder(self.comboBox, self.eq1)
-        MainWindow.setTabOrder(self.eq1, self.eq2)
-        MainWindow.setTabOrder(self.eq2, self.eq3)
-        MainWindow.setTabOrder(self.eq3, self.eq4)
-        MainWindow.setTabOrder(self.eq4, self.eq5)
-        MainWindow.setTabOrder(self.eq5, self.eq6)
-        MainWindow.setTabOrder(self.eq6, self.eq7)
-        MainWindow.setTabOrder(self.eq7, self.eq8)
-        MainWindow.setTabOrder(self.eq8, self.eq9)
-        MainWindow.setTabOrder(self.eq9, self.eq10)
-        MainWindow.setTabOrder(self.eq10, self.signal_3)
-        MainWindow.setTabOrder(self.signal_3, self.spectro_3)
+        # MainWindow.setTabOrder(self.comboBox, self.eq1)
+        # MainWindow.setTabOrder(self.eq1, self.eq2)
+        # MainWindow.setTabOrder(self.eq2, self.eq3)
+        # MainWindow.setTabOrder(self.eq3, self.eq4)
+        # MainWindow.setTabOrder(self.eq4, self.eq5)
+        # MainWindow.setTabOrder(self.eq5, self.eq6)
+        # MainWindow.setTabOrder(self.eq6, self.eq7)
+        # MainWindow.setTabOrder(self.eq7, self.eq8)
+        # MainWindow.setTabOrder(self.eq8, self.eq9)
+        # MainWindow.setTabOrder(self.eq9, self.eq10)
+        # MainWindow.setTabOrder(self.eq10, self.signal_3)
+        # MainWindow.setTabOrder(self.signal_3, self.spectro_3)
         MainWindow.setTabOrder(self.spectro_3, self.equalizer)
         MainWindow.setTabOrder(self.equalizer, self.clear)
         MainWindow.setTabOrder(self.clear, self.zoom_out)
@@ -624,17 +700,11 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionOpen.triggered.connect(lambda:self.opensignal())
         self.spect.clicked.connect(lambda:self.spectro())
         self.save.clicked.connect(lambda:self.band1())
-        #self.play.clicked.connect(lambda:self.Fourier())
-        self.eq1.valueChanged.connect(lambda:self.Fourier())
-        self.eq2.valueChanged.connect(lambda:self.Fourier2())
-        self.eq3.valueChanged.connect(lambda:self.Fourier3())
-        self.eq4.valueChanged.connect(lambda:self.Fourier4())
-        self.eq5.valueChanged.connect(lambda:self.Fourier5())
-        self.eq6.valueChanged.connect(lambda:self.Fourier6())
-        self.eq7.valueChanged.connect(lambda:self.Fourier7())
-        self.eq8.valueChanged.connect(lambda:self.Fourier8())
-        self.eq9.valueChanged.connect(lambda:self.Fourier9())
-        self.eq10.valueChanged.connect(lambda:self.Fourier10())    
+        self.equalizers[0].valueChanged.connect(lambda:self.Fourier(0))
+        self.equalizers[1].valueChanged.connect(lambda:self.Fourier(1))
+        self.equalizers[2].valueChanged.connect(lambda:self.Fourier(2))
+        self.equalizers[3].valueChanged.connect(lambda:self.Fourier(3))
+          
     
     def readsignal(self):
         self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
@@ -644,6 +714,27 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def opensignal(self):
         self.readsignal()
         self.dataline= self.signal_3.plot(self.data)
+    
+
+    def Fourier(self,index):
+        
+        self.gain.append(self.equalizers[index].value())
+        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+        self.phase = np.angle(scipy.fft.rfft(self.data))
+        self.comp = scipy.fft.rfft(self.data) 
+        print(self.comp.shape)
+        index1= list(self.freqs).index(0*max(self.freqs)/10)
+        index2=list(self.freqs).index(1*max(self.freqs)/10)
+        for i in range(index1+(index*5000),index2+(index*5000)):
+            self.ft[i]*=self.gain[index%10]
+            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+        
+        self.m =scipy.fft.irfft(self.comp)
+        print(self.m.shape)
+        self.signal_1.plot(self.m , name="mode2")
+        
+      
 
     # def spectro(self):
 
@@ -651,180 +742,181 @@ class Ui_MainWindow(QtGui.QMainWindow):
     #     plt.savefig('spectro.png', dpi=300, bbox_inches='tight')
     #     self.spectro_1.setPixmap(QtGui.QPixmap('spectro.png'))
 
-    def Fourier(self):
-        before=[]
-        gain= self.eq1.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index1= list(self.freqs).index(1*max(self.freqs)/10)
-        index2=list(self.freqs).index(2*max(self.freqs)/10)
-        for i in range(index1,index2):
-            self.ft[i]*=gain
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    # def Fourier(self):
+    #     before=[]
+    #     gain= self.eq1.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        #wavfile.write('tes2.wav', self.fs, self.m)
-
-    def Fourier2(self):
-        # self.Fourier()
-        gain2= self.eq2.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
-
-        for i in range(index2,index2+(10000)):
-            self.ft[i]*=gain2
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     index1= list(self.freqs).index(0*max(self.freqs)/10)
+    #     index2=list(self.freqs).index(2*max(self.freqs)/10)
+    #     for i in range(index1,index2):
+    #         self.ft[i]*=gain
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        #wavfile.write('tes2.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     print(self.m.shape)
+    #     self.signal_1.plot(self.m)
+    #     #wavfile.write('tes2.wav', self.fs, self.m)
 
-    def Fourier3(self):
-        # self.Fourier2()
-        gain3= self.eq3.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+    # def Fourier2(self):
+    #     # self.Fourier()
+    #     gain2= self.eq2.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(10000),index2+(20000)):
-            self.ft[i]*=self.eq3.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2,index2+(5000)):
+    #         self.ft[i]*=gain2
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     #wavfile.write('tes2.wav', self.fs, self.m)
 
-    def Fourier4(self):
-        # self.Fourier3()
-        gain4= self.eq4.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+    # def Fourier3(self):
+    #     # self.Fourier2()
+    #     gain3= self.eq3.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(20000),index2+(30000)):
-            self.ft[i]*=gain4
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(5000),index2+(10000)):
+    #         self.ft[i]*=self.eq3.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
+    # def Fourier4(self):
+    #     # self.Fourier3()
+    #     gain4= self.eq4.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-    def Fourier5(self):
-        # self.Fourier4()
-        gain5= self.eq5.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
-
-        for i in range(index2+(30000),index2+(40000)):
-            self.ft[i]*=self.eq5.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(10000),index2+(15000)):
+    #         self.ft[i]*=gain4
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        print("5")
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
-    def Fourier6(self):
-        # self.Fourier5()
-        gain6= self.eq6.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(40000),index2+(50000)):
-            self.ft[i]*=self.eq6.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    # def Fourier5(self):
+    #     # self.Fourier4()
+    #     gain5= self.eq5.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+
+    #     for i in range(index2+(15000),index2+(20000)):
+    #         self.ft[i]*=self.eq5.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     print("5")
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
-    def Fourier7(self):
-        # self.Fourier6()
-        gain7= self.eq7.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+    # def Fourier6(self):
+    #     # self.Fourier5()
+    #     gain6= self.eq6.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(50000),index2+(60000)):
-            self.ft[i]*=self.eq7.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(20000),index2+(25000)):
+    #         self.ft[i]*=self.eq6.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
-    def Fourier8(self):
-        # self.Fourier7()
-        gain8= self.eq8.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+    # def Fourier7(self):
+    #     # self.Fourier6()
+    #     gain7= self.eq7.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(60000),index2+(70000)):
-            self.ft[i]*=self.eq8.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(25000),index2+(30000)):
+    #         self.ft[i]*=self.eq7.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    # def Fourier8(self):
+    #     # self.Fourier7()
+    #     gain8= self.eq8.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-
-    def Fourier9(self):
-        # self.Fourier8()
-        gain9= self.eq9.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
-
-        for i in range(index2+(70000),index2+(80000)):
-            self.ft[i]*=self.eq9.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(30000),index2+(35000)):
+    #         self.ft[i]*=self.eq8.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
 
-    def Fourier10(self):
-        # self.Fourier9()
-        gain10= self.eq10.value()
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
-        self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data) 
-        index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+    # def Fourier9(self):
+    #     # self.Fourier8()
+    #     gain9= self.eq9.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
 
-        for i in range(index2+(80000),):
-            self.ft[i]*=self.eq10.value()
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+    #     for i in range(index2+(35000),index2+(40000)):
+    #         self.ft[i]*=self.eq9.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
         
-        self.m =scipy.fft.irfft(self.comp)
-        self.signal_1.plot(self.m)
-        # wavfile.write('tes3.wav', self.fs, self.m)
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
+
+
+    # def Fourier10(self):
+    #     # self.Fourier9()
+    #     gain10= self.eq10.value()
+    #     self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+    #     self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+    #     self.phase = np.angle(scipy.fft.rfft(self.data))
+    #     self.comp = scipy.fft.rfft(self.data) 
+    #     index2=int(list(self.freqs).index(2*max(self.freqs)/10))
+
+    #     for i in range(index2+(40000),index2+(45000)):
+    #         self.ft[i]*=self.eq10.value()
+    #         self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+        
+    #     self.m =scipy.fft.irfft(self.comp)
+    #     self.signal_1.plot(self.m)
+    #     # wavfile.write('tes3.wav', self.fs, self.m)
 
 
     
