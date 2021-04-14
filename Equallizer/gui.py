@@ -214,6 +214,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.eq10.setMaximum(30)
         self.eq10.setOrientation(QtCore.Qt.Vertical)
         self.eq10.setObjectName("eq10")
+        self.eq1.setvalue(6)
+        self.eq1.setTickPosition(Qslider.TicksRight)
+        self.eq1.setTickInterval(6)
+
+
+
+
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(150, 571, 55, 16))
         self.label_4.setTabletTracking(False)
@@ -693,9 +700,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         # print(len(freqs))
         # amp of fft 
         # plt.plot(freqs[range(len(m))], ft[range(len(m))])                                                          
-        plt.xlabel('Frequency (Hz)')
-        plt.ylabel('Amplitude')
-        plt.show()
+        # plt.xlabel('Frequency (Hz)')
+        # plt.ylabel('Amplitude')
+        # plt.show()
     
 
 if __name__ == "__main__":
