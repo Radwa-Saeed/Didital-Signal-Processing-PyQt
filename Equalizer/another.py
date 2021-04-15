@@ -28,10 +28,14 @@ import scipy
 from scipy.io import wavfile
 import math
 import librosa
+#from SignalViewer import Ui_MainWindow
 # from PyQt5 import QtCore, QtMultimedia
 
-class Ui_MainWindow(QtGui.QMainWindow):
-    
+class Ui_MainWindow2(QtGui.QMainWindow):
+    def __init__(self):
+        super(Ui_MainWindow2,self).__init__()
+        self.setupUi(self)
+
     equalizers=[]
     signals = []
     timer = []
@@ -258,7 +262,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         self.sound = QtWidgets.QPushButton(self.centralwidget)
         self.sound.setGeometry(QtCore.QRect(385, 1, 35, 35))
-        self.spec.setText("")
+        self.sound.setText("")
         icon22 = QtGui.QIcon()
         icon22.addPixmap(QtGui.QPixmap("img/sound.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.sound.setIcon(icon22)
@@ -267,11 +271,19 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         self.wav = QtWidgets.QPushButton(self.centralwidget)
         self.wav.setGeometry(QtCore.QRect(420, 1, 35, 35))
-        self.spec.setText("")
+        self.wav.setText("")
         icon23 = QtGui.QIcon()
         icon23.addPixmap(QtGui.QPixmap("img/wav.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.wav.setIcon(icon23)
         self.wav.setObjectName("wav")
+
+        self.new = QtWidgets.QPushButton(self.centralwidget)
+        self.new.setGeometry(QtCore.QRect(455, 1, 35, 35))
+        self.new.setText("")
+        icon21 = QtGui.QIcon()
+        icon21.addPixmap(QtGui.QPixmap("img/new.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.new.setIcon(icon21)
+        self.new.setObjectName("new")
 
 
 
@@ -428,6 +440,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spec.clicked.connect(lambda:self.spectro())
         self.sound.clicked.connect(lambda:self.sound())
         self.wav.clicked.connect(lambda:self.wave())
+        self.new.clicked.connect(lambda:self.newwindow())
+
+    
 
 
         self.equalizers[0].valueChanged.connect(lambda:self.update(0))
@@ -444,6 +459,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.comboBox.currentTextChanged.connect(lambda:self.FourierSpectrogram())
 
 
+    def newwindow (self):
+        self.window=Ui_MainWindow2()
+        self.window.show()
 
     def readsignal(self):
         self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
@@ -699,8 +717,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
                 self.signals[i].plotItem.getViewBox().translateBy(x=100,y=0)
-
-#     
+    
     def savepdf(self):
         fig=plt.figure(figsize=(1000, 1000))
         index = (len(self.data) - 1) - ((len(self.data)-1)%3)
@@ -783,6 +800,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.actionForward.setShortcut(_translate("MainWindow", "Right"))
         self.actionSave_as_pdf.setText(_translate("MainWindow", "Save as pdf"))
         self.actionSave_as_pdf.setShortcut(_translate("MainWindow", "Ctrl+S"))
+
 
 if __name__ == "__main__":
     import sys
