@@ -36,6 +36,11 @@ class Ui_MainWindow(QtGui.QMainWindow):
     signals = []
     timer = []
     data = []
+    h=[]
+    speed=[]
+    xmin=[0,0,0]
+    xmax=[0,0,0]
+    scrollrate=[]
     n = []
     nn = []
     data_line = []
@@ -426,6 +431,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.open.clicked.connect(lambda:self.opensignal())
         self.save.clicked.connect(lambda:self.savepdf())
         self.spec.clicked.connect(lambda:self.spectro())
+        self.up.clicked.connect(lambda:self.SpeedUp())
+        self.down.clicked.connect(lambda:self.SpeedDown())
         self.sound.clicked.connect(lambda:self.sound())
         self.wav.clicked.connect(lambda:self.wave())
 
@@ -487,6 +494,11 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.counter+=1
             self.n.append(0)
             self.nn.append(0)
+            # self.h.append(0)
+            # self.xmin.append(0)
+            # self.xmax.append(0)
+            self.speed.append(1)
+            self.scrollrate.append(1)
             self.data_line.append(self.signals[self.counter % 3].plot(self.data[self.counter], name="mode2"))
             self.pen = pg.mkPen(color=(255, 0, 0))
             # Set timer 
@@ -511,29 +523,29 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def Fourier(self):
         
         # self.gain.append(self.equalizers[index].value())
-        self.ft = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
-        self.ftC = abs(scipy.fft.rfft(self.data))
-        self.freqs = scipy.fft.rfftfreq(len(self.ft), (1.0/self.fs)) #the x axis of fft plot (frequencies)
+        self.amplitudes = abs(scipy.fft.rfft(self.data)) #the y axis of fft plot (amplitudes)
+        self.amplitude_copy = abs(scipy.fft.rfft(self.data))
+        self.frequencies = scipy.fft.rfftfreq(len(self.amplitudes), (1.0/self.fs)) #the x axis of fft plot (frequencies)
         self.phase = np.angle(scipy.fft.rfft(self.data))
-        self.comp = scipy.fft.rfft(self.data)
-        # print(self.comp.shape)
+        self.complex = scipy.fft.rfft(self.data)
+        # print(self.complex.shape)
 
         
         
 
 
     def update(self,index):
-        index1= list(self.freqs).index(0*max(self.freqs)/10)
-        index2=list(self.freqs).index(max(self.freqs)/10)
+        index1= list(self.frequencies).index(0*max(self.frequencies)/10)
+        index2=list(self.frequencies).index(max(self.frequencies)/10)
         
         for i in range(((index1+(index*2500))*2),((index2+(index*2500))*2)):
-            self.ft[i]=self.equalizers[index].value() * self.ftC[i]
-            self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
+            self.amplitudes[i]=self.equalizers[index].value() * self.amplitude_copy[i]
+            self.complex[i] = self.amplitudes[i]*(math.cos(self.phase[i]))+self.amplitudes[i]*(math.sin(self.phase[i]))*1j
 
-        self.m =scipy.fft.irfft(self.comp)
+        self.inverse_data =scipy.fft.irfft(self.complex)
         self.FourierSpectrogram()
         self.signals[2].clear()
-        self.signals[2].plot(self.m)
+        self.signals[2].plot(self.inverse_data)
         self.signals[2].show()
 
     
@@ -546,7 +558,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spectrogram[0].setPixmap(QtGui.QPixmap('spectro1.png'))
         plt.close(None)
         self.spectrogram[0].show()
-        plt.specgram(self.m, Fs= 250 ,cmap=self.comboBox.currentText())
+        plt.specgram(self.inverse_data, Fs= 250 ,cmap=self.comboBox.currentText())
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro2.png'))
         plt.close(None)
@@ -555,58 +567,83 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
     # Data shift left
     def update_data1(self,index):
-        if self.n[index] < len(self.data[index]) :
+        if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10  
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+                self.xmin[index]= 0
+                self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10
-                self.n[index] += 10 
+                self.nn[index] +=  10 * self.speed[index]
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+                self.xmin[index] = self.nn[index]
+                self.xmax[index] = self.r[index] +self.nn[index]
+
             self.z[index] = 1
             
         else :
             self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
+            self.xmin[index] = 0 
+            self.xmax[index] = len(self.data[index])* self.z[index]
 
     def update_data2(self,index):
-        if self.n[index] < len(self.data[index]) :
+        if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10  
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+                self.xmin[index]= 0
+                self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10
-                self.n[index] += 10 
+                self.nn[index] +=  10 * self.speed[index]
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+                self.xmin[index] = self.nn[index]
+                self.xmax[index] = self.r[index] +self.nn[index]
+
             self.z[index] = 1
             
         else :
             self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
+            self.xmin[index] = 0 
+            self.xmax[index] = len(self.data[index])* self.z[index]
+
+
 
     def update_data3(self,index):
-        if self.n[index] < len(self.data[index]) :
+        if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10  
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+                self.xmin[index]= 0
+                self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10
-                self.n[index] += 10 
+                self.nn[index] +=  10 * self.speed[index]
+                self.n[index] += 10 * self.speed[index]
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+                self.xmin[index] = self.nn[index]
+                self.xmax[index] = self.r[index] +self.nn[index]
+
             self.z[index] = 1
             
         else :
             self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
+            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
+            self.xmin[index] = 0 
+            self.xmax[index] = len(self.data[index])* self.z[index]
+
+
 
     def spectro(self):
         # if (self.fname[0].endswith('.wav')):
@@ -653,7 +690,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
 
     def wave(self):
-        wavfile.write('edited.wav', self.fs, self.m)
+        wavfile.write('edited.wav', self.fs, self.inverse_data)
         
         # sound = QtMultimedia.QSoundEffect()
         # sound.setSource(QtCore.QUrl.fromLocalFile("edited.")
@@ -682,23 +719,52 @@ class Ui_MainWindow(QtGui.QMainWindow):
                 self.signals[i].plotItem.getViewBox().scaleBy(x=0.5,y=1)
                 self.r[i]=self.r[i]*0.5
                 self.z[i] = self.z[i] * 0.5
-            
+                self.scrollrate[i] *=  0.5
+      
     def zoomout(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
                 self.signals[i].plotItem.getViewBox().scaleBy(x=2,y=1)
                 self.r[i]=self.r[i]*2
                 self.z[i] = self.z[i] * 2
+                self.scrollrate[i] *=  2
+
       
     def scrlleft(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                self.signals[i].plotItem.getViewBox().translateBy(x=-100,y=0)
+                self.signals[i].plotItem.getViewBox().translateBy(x=-100 * self.scrollrate[i] ,y=0)
+                self.xmin[i] -= 100 * self.scrollrate[i]
+                self.xmax[i] -= 100 * self.scrollrate[i]
       
     def scrlright(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                self.signals[i].plotItem.getViewBox().translateBy(x=100,y=0)
+                # if self.n[i]< 1000:
+                self.signals[i].plotItem.getViewBox().translateBy(x=100 * self.scrollrate[i] ,y=0)
+                self.xmax[i] += 100 * self.scrollrate[i]
+                self.xmin[i] += 100 * self.scrollrate[i]
+            # else:
+            #     if self.xmax[i] < 1000 +self.nn[i]:
+            #         self.signals[i].plotItem.getViewBox().translateBy(x=100 * self.scrollrate[i] ,y=0)
+            #         self.xmax[i] += 100 * self.scrollrate[i]
+            #         self.xmin[i] += 100 * self.scrollrate[i]
+
+
+    def SpeedUp(self):
+
+        for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.speed[i]  *=  2
+
+    def SpeedDown(self):
+
+       for i in range (0,3):
+            if (self.checkBox[i].isChecked()==True):
+                self.speed[i]  *=  0.5
+
+
+                
 
 #     
     def savepdf(self):
