@@ -31,6 +31,7 @@ import librosa
 
 
 class Ui_MainWindow(QtGui.QMainWindow):
+    
     equalizers=[]
     signals = []
     timer = []
@@ -101,7 +102,11 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.equalizers[i].setMaximum(5)
             self.equalizers[i].setOrientation(QtCore.Qt.Vertical)
             self.equalizers[i].setValue(1)
+            self.equalizers[i].setTickPosition(QSlider.TicksRight)
             self.equalizers[i].setTickInterval(1)
+            self.equalizers[i].hide()
+
+
             
         for i in range(0,3):
 
@@ -242,6 +247,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.comboBox.addItem(icon9, "")
         self.comboBox.addItem(icon9, "")
         self.comboBox.addItem(icon9, "")
+        self.comboBox.hide()
        
         self.Zoom_in.raise_()
         self.equalizers[0].raise_()
@@ -396,12 +402,16 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
 
 
-
     def readsignal(self):
         self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
         self.path=self.fname[0]
-        self.data,self.fs = librosa.load(os.path.basename(self.path),sr = None, mono = True,offset = 0.0,duration = None)
-        if (os.path.basename(self.path).find('.wav')):
+        self.comboBox.show()
+        #if (self.fname[0].find('.wav')):
+        if (self.fname[0].endswith('.wav')):
+            for i in range(0,10):
+                self.equalizers[i].show()
+            self.data,self.fs = librosa.load(os.path.basename(self.path),sr = None, mono = True,offset = 0.0,duration = None)
+        # if (os.path.basename(self.path).find('.wav')):
             self.Fourier()
 
         # self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)")
@@ -410,43 +420,50 @@ class Ui_MainWindow(QtGui.QMainWindow):
         # # print(data1)
         # self.data.append(data1[0:])
         # # print(self.data[-1])
-
-        # self.fname=QtGui.QFileDialog.getOpenFileName(self,' txt or CSV or xls',os.getenv('home'),"xls(*.xls) ;; text(*.txt) ;; csv(*.csv)")
-        # path=self.fname[0]
-        # self.data.append(np.genfromtxt(path))
+        else:
+            for i in range(0,10):
+                self.equalizers[i].hide()
+            self.data.append(np.genfromtxt(self.path))
     
     def opensignal(self):
         self.readsignal()
-        self.counter+=1
-        # self.n.append(0)
-        # self.nn.append(0)
-        print(self.data[self.counter].shape)
-        self.signals[self.counter % 3].plot(self.data)
-        # self.pen = pg.mkPen(color=(255, 0, 0))
-        # Set timer 
-        # self.timer.append(pg.QtCore.QTimer())
-        # Timer signal binding update_data function
-        x = self.counter
-        # if x%3 == 0:
-        #     self.timer[x].timeout.connect(lambda: self.update_data1(x))
-        #     self.timer[x].start(50)
-        # if x%3 == 1:
-        #     self.timer[x].timeout.connect(lambda: self.update_data2(x)) 
-        #     self.timer[x].start(50)
-        # if x%3 == 2:
-        #     self.timer[x].timeout.connect(lambda: self.update_data3(x))
-        #     self.timer[x].start(50)
-        # # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
-        # #self.timer1.start(50)
-        plt.specgram(self.data, Fs= 250 ,cmap=self.comboBox.currentText())
-        plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
-        self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro1.png'))
-        plt.close(None)
-        self.spectrogram[0].show() 
-        self.signals[x%3].show()
-        self.checkBox[x%3].show()
-        self.checkBox[x%3].setChecked(True)
         
+        #if (self.fname[0].find('.wav')):
+        if (self.fname[0].endswith('.wav')):
+            self.counter+=1
+            print(self.data[self.counter].shape)
+            self.signals[self.counter % 3].plot(self.data)
+            x = self.counter
+            plt.specgram(self.data, Fs= self.fs, cmap= self.comboBox.currentText())
+            plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
+            self.spectrogram[0].setPixmap(QtGui.QPixmap('spectro1.png'))
+            plt.close(None)
+            self.spectrogram[0].show() 
+            self.signals[x%3].show()
+        else: 
+            self.counter+=1
+            self.n.append(0)
+            self.nn.append(0)
+            self.data_line.append(self.signals[self.counter % 3].plot(self.data[self.counter], name="mode2"))
+            self.pen = pg.mkPen(color=(255, 0, 0))
+            # Set timer 
+            self.timer.append(pg.QtCore.QTimer())
+            # Timer signal binding update_data function
+            x = self.counter
+            if x%3 == 0:
+                self.timer[x].timeout.connect(lambda: self.update_data1(x))
+                self.timer[x].start(50)
+            if x%3 == 1:
+                self.timer[x].timeout.connect(lambda: self.update_data2(x)) 
+                self.timer[x].start(50)
+            if x%3 == 2:
+                self.timer[x].timeout.connect(lambda: self.update_data3(x))
+                self.timer[x].start(50)
+            # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
+            #self.timer1.start(50)
+            self.signals[x%3].show()
+            self.checkBox[x%3].show()
+            self.checkBox[x%3].setChecked(True)
 
     def Fourier(self):
         
@@ -465,29 +482,26 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def update(self,index):
         index1= list(self.freqs).index(0*max(self.freqs)/10)
         index2=list(self.freqs).index(max(self.freqs)/10)
-        # print(max(self.freqs))
-        # print(list(self.freqs).index(max(self.freqs)))
-        # # print(max(self.freqs))
-        # print(index1)
-        # print(index2)
-
-        # print(self.equalizers[index].value())
         
         for i in range(((index1+(index*2500))*2),((index2+(index*2500))*2)):
             self.ft[i]=self.equalizers[index].value() * self.ftC[i]
             self.comp[i] = self.ft[i]*(math.cos(self.phase[i]))+self.ft[i]*(math.sin(self.phase[i]))*1j
-        # print(self.ftC[5001])
-        # print(self.ft[5001])
-        # print(self.comp[5001])
+
         self.m =scipy.fft.irfft(self.comp)
-        # print(self.m[5001])
-        # print(self.m.shape)
         self.FourierSpectrogram()
         self.signals[2].clear()
         self.signals[2].plot(self.m)
         self.signals[2].show()
+    
+    
     def FourierSpectrogram(self) :  
         print(self.comboBox.currentText())
+        
+        plt.specgram(self.data, Fs= self.fs, cmap= self.comboBox.currentText())
+        plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
+        self.spectrogram[0].setPixmap(QtGui.QPixmap('spectro1.png'))
+        plt.close(None)
+        self.spectrogram[0].show()
         plt.specgram(self.m, Fs= 250 ,cmap=self.comboBox.currentText())
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro2.png'))
@@ -551,29 +565,37 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signals[index%3].plotItem.setXRange(0 , len(self.data[index]) * self.z[index] , padding=0)
 
     def spectro(self):
-        index = (len(self.data) - 1) - ((len(self.data)-1)%3)
-        for i in range (0,3):
-            if (self.checkBox[i].isChecked()==True):
-                self.spectrogram[i].show()
-                if i==0:
-                    print(self.comboBox.currentText())
-               
-                    plt.specgram(self.data, Fs= 250 ,cmap=self.comboBox.currentText())
-                elif i == 1:    
-                    if (len(self.data ) - 1 - index >= 1):
-                        plt.specgram(self.data[index + 1], Fs= 250 ,cmap=self.comboBox.currentText())
-                    else:
-                        plt.specgram(self.data[index - 2], Fs= 250,cmap=self.comboBox.currentText() )
+        # if (self.fname[0].endswith('.wav')):
 
-                else:
-                    if (len(self.data) - 1 - index == 2):
-                        plt.specgram(self.data[index + 2], Fs= 250,cmap=self.comboBox.currentText() )
+        #     plt.specgram(self.data, Fs= self.fs ,cmap=self.comboBox.currentText())
+        #     plt.savefig('spectrowav.png', dpi=300, bbox_inches='tight')
+        #     self.spectrogram[0].setPixmap(QtGui.QPixmap('spectrowav.png'))
+        #     plt.close(None)
+        if not (self.fname[0].endswith('.wav')):
+            index = (len(self.data) - 1) - ((len(self.data)-1)%3)
+
+            for i in range (0,3):
+                if (self.checkBox[i].isChecked()==True):
+                    self.spectrogram[i].show()
+                    if i==0:
+                        print(self.comboBox.currentText())
+                
+                        plt.specgram(self.data[index], Fs= 250 ,cmap=self.comboBox.currentText())
+                    elif i == 1:    
+                        if (len(self.data ) - 1 - index >= 1):
+                            plt.specgram(self.data[index + 1], Fs= 250 ,cmap=self.comboBox.currentText())
+                        else:
+                            plt.specgram(self.data[index - 2], Fs= 250,cmap=self.comboBox.currentText() )
 
                     else:
-                        plt.specgram(self.data[index - 1], Fs= 250,cmap=self.comboBox.currentText() )
-                plt.savefig('spectro'+str(i)+'.png', dpi=300, bbox_inches='tight')
-                self.spectrogram[i].setPixmap(QtGui.QPixmap('spectro'+str(i)+'.png'))
-                plt.close(None)
+                        if (len(self.data) - 1 - index == 2):
+                            plt.specgram(self.data[index + 2], Fs= 250,cmap=self.comboBox.currentText() )
+
+                        else:
+                            plt.specgram(self.data[index - 1], Fs= 250,cmap=self.comboBox.currentText() )
+                    plt.savefig('spectro'+str(i)+'.png', dpi=300, bbox_inches='tight')
+                    self.spectrogram[i].setPixmap(QtGui.QPixmap('spectro'+str(i)+'.png'))
+                    plt.close(None)
 
     def pausee(self):
         for i in range (0,3):
