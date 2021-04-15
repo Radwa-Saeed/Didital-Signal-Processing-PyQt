@@ -28,7 +28,7 @@ import scipy
 from scipy.io import wavfile
 import math
 import librosa
-
+# from PyQt5 import QtCore, QtMultimedia
 
 class Ui_MainWindow(QtGui.QMainWindow):
     
@@ -167,7 +167,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.open.setObjectName("open")
 
         self.save = QtWidgets.QPushButton(self.centralwidget)
-        self.save.setGeometry(QtCore.QRect(30, 1, 35, 35))
+        self.save.setGeometry(QtCore.QRect(35, 1, 35, 35))
         self.save.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("img/save.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -176,7 +176,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         
         
         self.Zoom_in = QtWidgets.QPushButton(self.centralwidget)
-        self.Zoom_in.setGeometry(QtCore.QRect(60, 1, 35, 35))
+        self.Zoom_in.setGeometry(QtCore.QRect(70, 1, 35, 35))
         self.Zoom_in.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("img/zoom-in.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -184,15 +184,27 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.Zoom_in.setObjectName("Zoom_in")
 
         self.zoom_out = QtWidgets.QPushButton(self.centralwidget)
-        self.zoom_out.setGeometry(QtCore.QRect(90, 1, 35, 35))
+        self.zoom_out.setGeometry(QtCore.QRect(105, 1, 35, 35))
         self.zoom_out.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("img/zoom-out.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.zoom_out.setIcon(icon1)
         self.zoom_out.setObjectName("zoom_out")
 
+
+        self.down = QtWidgets.QPushButton(self.centralwidget)
+        self.down.setGeometry(QtCore.QRect(140, 1, 35, 35))
+        self.down.setText("")
+        icon21 = QtGui.QIcon()
+        icon21.addPixmap(QtGui.QPixmap("img/down.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.down.setIcon(icon21)
+        self.down.setObjectName("down")
+
+
+
+
         self.left = QtWidgets.QPushButton(self.centralwidget)
-        self.left.setGeometry(QtCore.QRect(120, 1, 35, 35))
+        self.left.setGeometry(QtCore.QRect(175, 1, 35, 35))
         self.left.setText("")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap("img/previous.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -200,7 +212,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.left.setObjectName("left")
 
         self.play = QtWidgets.QPushButton(self.centralwidget)
-        self.play.setGeometry(QtCore.QRect(150, 1, 35, 35))
+        self.play.setGeometry(QtCore.QRect(210, 1, 35, 35))
         self.play.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap("img/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -209,7 +221,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         
         self.right = QtWidgets.QPushButton(self.centralwidget)
-        self.right.setGeometry(QtCore.QRect(180, 1, 35, 35))
+        self.right.setGeometry(QtCore.QRect(245, 1, 35, 35))
         self.right.setText("")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap("img/next.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -217,8 +229,17 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.right.setObjectName("right")
 
 
+        self.up = QtWidgets.QPushButton(self.centralwidget)
+        self.up.setGeometry(QtCore.QRect(280, 1, 35, 35))
+        self.up.setText("")
+        icon20 = QtGui.QIcon()
+        icon20.addPixmap(QtGui.QPixmap("img/up.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.up.setIcon(icon20)
+        self.up.setObjectName("up")
+
+
         self.pause = QtWidgets.QPushButton(self.centralwidget)
-        self.pause.setGeometry(QtCore.QRect(210, 1, 35, 35))
+        self.pause.setGeometry(QtCore.QRect(315, 1, 35, 35))
         self.pause.setText("")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap("img/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -227,12 +248,31 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         
         self.spec = QtWidgets.QPushButton(self.centralwidget)
-        self.spec.setGeometry(QtCore.QRect(240, 1, 35, 35))
+        self.spec.setGeometry(QtCore.QRect(350, 1, 35, 35))
         self.spec.setText("")
         icon20 = QtGui.QIcon()
         icon20.addPixmap(QtGui.QPixmap("img/spec3.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.spec.setIcon(icon20)
         self.spec.setObjectName("spec")
+
+
+        self.sound = QtWidgets.QPushButton(self.centralwidget)
+        self.sound.setGeometry(QtCore.QRect(385, 1, 35, 35))
+        self.spec.setText("")
+        icon22 = QtGui.QIcon()
+        icon22.addPixmap(QtGui.QPixmap("img/sound.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.sound.setIcon(icon22)
+        self.sound.setObjectName("sound")
+
+
+        self.wav = QtWidgets.QPushButton(self.centralwidget)
+        self.wav.setGeometry(QtCore.QRect(420, 1, 35, 35))
+        self.spec.setText("")
+        icon23 = QtGui.QIcon()
+        icon23.addPixmap(QtGui.QPixmap("img/wav.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.wav.setIcon(icon23)
+        self.wav.setObjectName("wav")
+
 
 
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -386,6 +426,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.open.clicked.connect(lambda:self.opensignal())
         self.save.clicked.connect(lambda:self.savepdf())
         self.spec.clicked.connect(lambda:self.spectro())
+        self.sound.clicked.connect(lambda:self.sound())
+        self.wav.clicked.connect(lambda:self.wave())
+
 
         self.equalizers[0].valueChanged.connect(lambda:self.update(0))
         self.equalizers[1].valueChanged.connect(lambda:self.update(1))
@@ -492,6 +535,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.signals[2].clear()
         self.signals[2].plot(self.m)
         self.signals[2].show()
+
     
     
     def FourierSpectrogram(self) :  
@@ -596,6 +640,29 @@ class Ui_MainWindow(QtGui.QMainWindow):
                     plt.savefig('spectro'+str(i)+'.png', dpi=300, bbox_inches='tight')
                     self.spectrogram[i].setPixmap(QtGui.QPixmap('spectro'+str(i)+'.png'))
                     plt.close(None)
+
+
+
+    def sound(self):
+        pass
+        # sound = QtMultimedia.QSoundEffect()
+        # sound.setSource(QtCore.QUrl.fromLocalFile(self.path))
+        # # sound.setLoopCount(QtMultimedia.QSoundEffect.Infinite)
+        # sound.setVolume(50)
+        # sound.play()
+
+
+    def wave(self):
+        wavfile.write('edited.wav', self.fs, self.m)
+        
+        # sound = QtMultimedia.QSoundEffect()
+        # sound.setSource(QtCore.QUrl.fromLocalFile("edited.")
+        # # sound.setLoopCount(QtMultimedia.QSoundEffect.Infinite)
+        # sound.setVolume(50)
+        # sound.play()
+
+
+
 
     def pausee(self):
         for i in range (0,3):
