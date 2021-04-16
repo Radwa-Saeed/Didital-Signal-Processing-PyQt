@@ -55,6 +55,9 @@ class Ui_MainWindow2(QtGui.QMainWindow):
     fs=[]
     gain=[]
 
+    spectroSlider=[0,25,50,75,100,125]
+    Current = {'min':0, 'max':5}
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1010, 878)
@@ -63,48 +66,59 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         
-        for i in range(0,10):
+        for i in range(0,12):
             self.equalizers.append(QtWidgets.QSlider(self.centralwidget))
 
             if i ==0:
                 self.equalizers[i].setGeometry(QtCore.QRect(81, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq1")
+                self.equalizers[i].setValue(1)
             
             elif i ==1:
                 self.equalizers[i].setGeometry(QtCore.QRect(170, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq2")
+                self.equalizers[i].setValue(1)
             
             elif i ==2:
                 self.equalizers[i].setGeometry(QtCore.QRect(259, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq3")
-            
+                self.equalizers[i].setValue(1)
             elif i ==3:
                 self.equalizers[i].setGeometry(QtCore.QRect(348, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq4")
-            
+                self.equalizers[i].setValue(1)
             elif i ==4:
                 self.equalizers[i].setGeometry(QtCore.QRect(437, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq5")
-            
+                self.equalizers[i].setValue(1)
             elif i ==5:
                 self.equalizers[i].setGeometry(QtCore.QRect(526, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq6")
-            
+                self.equalizers[i].setValue(1)
             elif i ==6:
                 self.equalizers[i].setGeometry(QtCore.QRect(615, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq7")
-            
+                self.equalizers[i].setValue(1)
             elif i ==7:
                 self.equalizers[i].setGeometry(QtCore.QRect(700, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq8")
-            
+                self.equalizers[i].setValue(1)
             elif i ==8:
                 self.equalizers[i].setGeometry(QtCore.QRect(793, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq9")
-            
-            else :
+                self.equalizers[i].setValue(1)
+            elif i==9:
                 self.equalizers[i].setGeometry(QtCore.QRect(882, 340, 22, 221))
                 self.equalizers[i].setObjectName("eq10")
+                self.equalizers[i].setValue(1)
+            elif i == 10 :
+                self.equalizers[i].setGeometry(QtCore.QRect(960, 600, 22, 221))
+                self.equalizers[i].setObjectName("Spec-min")
+                self.equalizers[i].setValue(0)
+            else :
+                self.equalizers[i].setGeometry(QtCore.QRect(990, 600, 22, 221))
+                self.equalizers[i].setObjectName("Spec-max")
+                self.equalizers[i].setValue(5)
 
             self.equalizers[i].setTabletTracking(False)
             self.equalizers[i].setMaximum(5)
@@ -315,6 +329,8 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.equalizers[7].raise_()
         self.equalizers[8].raise_()
         self.equalizers[9].raise_()
+        self.equalizers[10].raise_()
+        self.equalizers[11].raise_()
         self.signals[0].raise_()
         self.checkBox[1].raise_()
         self.spectrogram[1].raise_()
@@ -457,14 +473,16 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.equalizers[7].valueChanged.connect(lambda:self.update(7))
         self.equalizers[8].valueChanged.connect(lambda:self.update(8))
         self.equalizers[9].valueChanged.connect(lambda:self.update(9))
+        self.equalizers[10].valueChanged.connect(lambda:self.SpectroSliders(self.equalizers[10], 'min'))
+        self.equalizers[11].valueChanged.connect(lambda:self.SpectroSliders(self.equalizers[11], 'max'))
         self.comboBox.currentTextChanged.connect(lambda:self.spectro())
         self.comboBox.currentTextChanged.connect(lambda:self.FourierSpectrogram())
 
 
 
     def new_window(self):
-        from another import Ui_MainWindow2
-        self.window=Ui_MainWindow2()
+        from another2 import Ui_MainWindow3
+        self.window=Ui_MainWindow3()
         self.window.show()
 
     def readsignal(self):
@@ -534,6 +552,10 @@ class Ui_MainWindow2(QtGui.QMainWindow):
             self.signals[x%3].show()
             self.checkBox[x%3].show()
             self.checkBox[x%3].setChecked(True)
+
+    def SpectroSliders(self, equalizer, current):
+        self.Current[current] = int(equalizer.value())
+        self.FourierSpectrogram()
 
     def Fourier(self):
         
