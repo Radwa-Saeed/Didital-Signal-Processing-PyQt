@@ -118,7 +118,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
                 self.equalizers[i].setGeometry(QtCore.QRect(960, 600, 22, 221))
                 self.equalizers[i].setObjectName("Spec-min")
                 self.equalizers[i].setValue(0)
-                self.equalizers[i].setMinimum(1)
+                # self.equalizers[i].setMinimum(1)
                 
 
             else:
