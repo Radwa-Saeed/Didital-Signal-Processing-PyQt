@@ -28,14 +28,13 @@ import scipy
 from scipy.io import wavfile
 import math
 import librosa
-#from SignalViewer import Ui_MainWindow
 # from PyQt5 import QtCore, QtMultimedia
+#from another2 import Ui_MainWindow3
 
 class Ui_MainWindow2(QtGui.QMainWindow):
     def __init__(self):
         super(Ui_MainWindow2,self).__init__()
         self.setupUi(self)
-
     equalizers=[]
     signals = []
     timer = []
@@ -267,7 +266,7 @@ class Ui_MainWindow2(QtGui.QMainWindow):
 
         self.sound = QtWidgets.QPushButton(self.centralwidget)
         self.sound.setGeometry(QtCore.QRect(385, 1, 35, 35))
-        self.sound.setText("")
+        self.spec.setText("")
         icon22 = QtGui.QIcon()
         icon22.addPixmap(QtGui.QPixmap("img/sound.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.sound.setIcon(icon22)
@@ -276,7 +275,7 @@ class Ui_MainWindow2(QtGui.QMainWindow):
 
         self.wav = QtWidgets.QPushButton(self.centralwidget)
         self.wav.setGeometry(QtCore.QRect(420, 1, 35, 35))
-        self.wav.setText("")
+        self.spec.setText("")
         icon23 = QtGui.QIcon()
         icon23.addPixmap(QtGui.QPixmap("img/wav.jpeg"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.wav.setIcon(icon23)
@@ -285,11 +284,10 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.new = QtWidgets.QPushButton(self.centralwidget)
         self.new.setGeometry(QtCore.QRect(455, 1, 35, 35))
         self.new.setText("")
-        icon21 = QtGui.QIcon()
-        icon21.addPixmap(QtGui.QPixmap("img/new.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        self.new.setIcon(icon21)
+        icon24 = QtGui.QIcon()
+        icon24.addPixmap(QtGui.QPixmap("img/new.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.new.setIcon(icon24)
         self.new.setObjectName("new")
-
 
 
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -447,10 +445,7 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.down.clicked.connect(lambda:self.SpeedDown())
         self.sound.clicked.connect(lambda:self.sound())
         self.wav.clicked.connect(lambda:self.wave())
-        self.new.clicked.connect(lambda:self.newwindow())
-
-    
-
+        self.new.clicked.connect(lambda:self.new_window())
 
         self.equalizers[0].valueChanged.connect(lambda:self.update(0))
         self.equalizers[1].valueChanged.connect(lambda:self.update(1))
@@ -466,8 +461,10 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.comboBox.currentTextChanged.connect(lambda:self.FourierSpectrogram())
 
 
-    def newwindow (self):
-        self.window=Ui_MainWindow2()
+
+    def new_window(self):
+        from another2 import Ui_MainWindow3
+        self.window=Ui_MainWindow3()
         self.window.show()
 
     def readsignal(self):
@@ -758,7 +755,6 @@ class Ui_MainWindow2(QtGui.QMainWindow):
     def scrlright(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-<<<<<<< HEAD:Equalizer/Signal-Viewer.py
                 # if self.n[i]< 1000:
                 self.signals[i].plotItem.getViewBox().translateBy(x=100 * self.scrollrate[i] ,y=0)
                 self.xmax[i] += 100 * self.scrollrate[i]
@@ -786,10 +782,6 @@ class Ui_MainWindow2(QtGui.QMainWindow):
                 
 
 #     
-=======
-                self.signals[i].plotItem.getViewBox().translateBy(x=100,y=0)
-    
->>>>>>> 837c097f5b26d5f41c59fefff59f4a696e81048f:Equalizer/another.py
     def savepdf(self):
         fig=plt.figure(figsize=(1000, 1000))
         index = (len(self.data) - 1) - ((len(self.data)-1)%3)
@@ -872,7 +864,6 @@ class Ui_MainWindow2(QtGui.QMainWindow):
         self.actionForward.setShortcut(_translate("MainWindow", "Right"))
         self.actionSave_as_pdf.setText(_translate("MainWindow", "Save as pdf"))
         self.actionSave_as_pdf.setShortcut(_translate("MainWindow", "Ctrl+S"))
-
 
 if __name__ == "__main__":
     import sys

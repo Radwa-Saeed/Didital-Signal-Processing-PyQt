@@ -31,7 +31,10 @@ import librosa
 # from PyQt5 import QtCore, QtMultimedia
 from another import Ui_MainWindow2
 
-class Ui_MainWindow(QtGui.QMainWindow):
+class Ui_MainWindow3(QtGui.QMainWindow):
+    def __init__(self):
+        super(Ui_MainWindow3,self).__init__()
+        self.setupUi(self)
     equalizers=[]
     signals = []
     timer = []
