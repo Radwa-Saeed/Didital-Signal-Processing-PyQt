@@ -568,36 +568,44 @@ class Ui_MainWindow(QtGui.QMainWindow):
         
 
 
-    def update(self,index):
-        index1= list(self.frequencies).index(0*max(self.frequencies)/10)
-        index2=list(self.frequencies).index(max(self.frequencies)/10)
-        
-        for i in range(((index1+(index*2500))*2),((index2+(index*2500))*2)):
-            self.amplitudes[i]=self.equalizers[index].value() * self.amplitude_copy[i]
-            self.complex[i] = self.amplitudes[i]*(math.cos(self.phase[i]))+self.amplitudes[i]*(math.sin(self.phase[i]))*1j
 
-        self.inverse_data =scipy.fft.irfft(self.complex)
+    def update(self,index):
+        index1= list(self.Frequencies).index((0*max(self.Frequencies)/20))
+        index2=math.floor((list(self.Frequencies).index(max(self.Frequencies))/20))
+        Band=index2-index1
+        for i in range(10,12):
+            self.equalizers[i].show()
+      
+
+        
+        for i in range(((index1+(Band*index))+1)*2,((index2+(Band*index)))*2):
+            self.Amplitude[i]=self.equalizers[index].value() * self.CopyOfAmplitudes[i]
+            self.Amplitude[-i]=self.equalizers[index].value() * self.CopyOfAmplitudes[-i]
+            self.Complex[i] = self.Amplitude[i]*(math.cos(self.Phase[i]))+self.Amplitude[i]*(math.sin(self.Phase[i]))*1j
+            self.Complex[-i] = self.Amplitude[-i]*(math.cos(self.Phase[-i]))+self.Amplitude[-i]*(math.sin(self.Phase[-i]))*1j
+      
+        self.InversedData =scipy.fft.ifft(self.Complex)
+        
+       
         self.FourierSpectrogram()
         self.signals[2].clear()
-        self.signals[2].plot(self.inverse_data)
+        self.signals[2].plot(self.InversedData.real)
         self.signals[2].show()
 
-    
-    
-    def FourierSpectrogram(self) :  
-        print(self.comboBox.currentText())
         
-        plt.specgram(self.data, Fs= self.fs, cmap= self.comboBox.currentText())
+    def FourierSpectrogram(self) :  
+        plt.specgram(self.data, Fs= 250 ,cmap=self.comboBox.currentText())
         plt.savefig('spectro1.png', dpi=300, bbox_inches='tight')
         self.spectrogram[0].setPixmap(QtGui.QPixmap('spectro1.png'))
-        plt.close(None)
-        self.spectrogram[0].show()
-        plt.specgram(self.inverse_data, Fs= 250 ,cmap=self.comboBox.currentText())
+        # print(self.comboBox.currentText())
+        self.spectrogram[2].show()
+        plt.specgram(self.InversedData.real, Fs= 250 ,cmap=self.comboBox.currentText())
+        plt.ylim((self.spectroSlider[self.Current['min']], self.spectroSlider[self.Current['max']]))
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro2.png'))
         plt.close(None)
-        self.spectrogram[2].show() 
-        
+         
+       
 
     # Data shift left
     def update_data1(self,index):
