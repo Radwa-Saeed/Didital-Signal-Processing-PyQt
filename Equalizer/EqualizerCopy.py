@@ -34,6 +34,9 @@ import librosa
 # from PyQt5 import QtCore, QtMultimedia
 
 class Ui_MainWindow(QtGui.QMainWindow):
+    def __init__(self):
+        super(Ui_MainWindow,self).__init__()
+        self.setupUi(self)
     count=-1
     equalizers=[]
     signals = []
@@ -482,8 +485,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
 
     def new_window(self):
-        from EqualizerCopy import Ui_MainWindow as Ui_MainWindow1
-        self.window=Ui_MainWindow1()
+        from EqualizerCopy2 import Ui_MainWindow as Ui_MainWindow2
+        self.window=Ui_MainWindow2()
         self.window.show()
 
     def readsignal(self):
