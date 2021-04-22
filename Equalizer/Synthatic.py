@@ -46,8 +46,7 @@ def make_soundfile(freq, data_size, fname="test.wav"):
     comptype = "NONE"
     compname = "not compressed"
     # set all the parameters at once
-    wav_file.setparams((nchannels, sampwidth, framerate,
-                        nframes, comptype, compname))
+    wav_file.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
     # now write out the file ...
     print("may take a moment ...")
     for s in sine_list:
