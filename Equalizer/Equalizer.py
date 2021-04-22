@@ -44,10 +44,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
     xmin=[0,0,0]
     xmax=[0,0,0]
     scrollrate=[]
-    n = []
-    nn = []
+    rightlimit = []
+    leftlimit = []
     data_line = []
-    r = [1200,1200,1200]
+    rangeofplot = [1200,1200,1200]
     z = [1,1,1]
     spectrogram = []
     checkBox = []
@@ -445,7 +445,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
         self.actionzoom_in.triggered.connect(lambda:self.ZoomiInAndOut(0.5))
         self.actionzoom_out.triggered.connect(lambda:self.ZoomiInAndOut(2))
-        # self.actionzoom_out.triggered.connect(lambda:self.zoomout())
         self.actionSave_as_pdf.triggered.connect(lambda:self.savepdf())
         self.actionBackward.triggered.connect(lambda:self.ScrollRightAndLeft(-1))
         self.actionForward.triggered.connect(lambda:self.ScrollRightAndLeft(1))
@@ -464,7 +463,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spec.clicked.connect(lambda:self.spectro())
         self.up.clicked.connect(lambda:self.SpeedUpAndDown(2))
         self.down.clicked.connect(lambda:self.SpeedUpAndDown(0.5))
-        # self.down.clicked.connect(lambda:self.SpeedDown())
         self.sound.clicked.connect(lambda:self.sounds())
         self.wav.clicked.connect(lambda:self.wave())
         self.new.clicked.connect(lambda:self.new_window())
@@ -528,8 +526,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.checkBox[2].setChecked(True)
         else: 
             self.counter+=1
-            self.n.append(0)
-            self.nn.append(0)
+            self.rightlimit.append(0)
+            self.leftlimit.append(0)
             # self.h.append(0)
             x = self.counter
             # self.xmin.append(0)
@@ -559,9 +557,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.checkBox[x%3].setChecked(True)
 
             
-    def Fourier(self):
-        
-      
+    def Fourier(self): 
         self.Amplitude = abs(scipy.fft.fft(self.data)) #the y axis of fft plot (amplitudes)
         self.CopyOfAmplitudes = abs(scipy.fft.fft(self.data))
         self.Frequencies = scipy.fft.fftfreq(len(self.Amplitude), (1.0/self.fs)) #the x axis of fft plot (frequencies)
@@ -575,8 +571,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         Band=index2-index1
         for i in range(10,12):
             self.equalizers[i].show()
-      
-
         
         for i in range(((index1+(Band*index))+1),((index2+(Band*index)))):
             self.Amplitude[i]=self.equalizers[index].value() * self.CopyOfAmplitudes[i]
@@ -585,13 +579,15 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.Complex[-i] = self.Amplitude[-i]*(math.cos(self.Phase[-i]))+self.Amplitude[-i]*(math.sin(self.Phase[-i]))*1j
       
         self.InversedData =scipy.fft.ifft(self.Complex)
-        self.spectroSlider=[0,max(self.Frequencies)/5,2*max(self.Frequencies)/5,3*max(self.Frequencies)/5,4*max(self.Frequencies)/5,max(self.Frequencies)]
-       
+
         self.FourierSpectrogram()
         self.signals[2].clear()
         self.signals[2].plot(self.InversedData.real)
         self.signals[2].plotItem.getViewBox().setLimits(xMin=0,xMax=len(self.InversedData))
         self.signals[2].show()
+
+
+
 
     def FourierSpectrogram(self) :  
         vmin = 20*np.log10(np.max(self.InversedData.real))  - 200 # hide anything below -40 dBc
@@ -612,29 +608,30 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
     # Data shift left
     def update_data(self,index):
-        if self.n[index] < len(self.data[index]):
-            if self.n[index] < 1000 :    
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+        if self.rightlimit[index] < len(self.data[index]):
+            if self.rightlimit[index] < 1000 :    
+                self.rightlimit[index] += int(10 * self.speed[index])
+                self.data_line[index].setData(self.data[index][0 : self.rightlimit[index]])
+                self.signals[index%3].plotItem.setXRange(0, self.rangeofplot[index] , padding=0)
                 self.xmin[index]= 0
-                self.xmax[index]= self.r[index]
+                self.xmax[index]= self.rangeofplot[index]
             
             else :
-                self.nn[index] +=  int(10 * self.speed[index])
-                self.n[index] +=int( 10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
-                self.xmin[index] = self.nn[index]
-                self.xmax[index] = self.r[index] +self.nn[index]
+                self.leftlimit[index] +=  int(10 * self.speed[index])
+                self.rightlimit[index] +=int( 10 * self.speed[index])
+                self.data_line[index].setData(self.data[index][0 : self.rightlimit[index]])
+                self.signals[index%3].plotItem.setXRange(self.leftlimit[index],self.rangeofplot[index] +self.leftlimit[index] , padding=0)
+                self.xmin[index] = self.leftlimit[index]
+                self.xmax[index] = self.rangeofplot[index] +self.leftlimit[index]
 
             self.z[index] = 1
             
         else :
-            self.data_line[index].setData(self.data[index][0 : self.n[index]])
+            self.data_line[index].setData(self.data[index][0 : self.rightlimit[index]])
             self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
             self.xmin[index] = 0 
             self.xmax[index] = len(self.data[index])* self.z[index]
+            self.pause()
 
     def spectro(self):
  
@@ -694,9 +691,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def ZoomiInAndOut(self,index):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                print(index)
                 self.signals[i].plotItem.getViewBox().scaleBy(x=index ,y=1)
-                self.r[i]=self.r[i]*index
+                self.rangeofplot[i]=self.rangeofplot[i]*index
                 self.z[i] = self.z[i] * index
  
       
