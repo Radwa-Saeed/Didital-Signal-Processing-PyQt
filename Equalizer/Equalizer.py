@@ -443,26 +443,28 @@ class Ui_MainWindow(QtGui.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.actionOpen.triggered.connect(lambda:self.opensignal())
 
-        self.actionzoom_in.triggered.connect(lambda:self.zoomin())
-        self.actionzoom_out.triggered.connect(lambda:self.zoomout())
+        self.actionzoom_in.triggered.connect(lambda:self.ZoomiInAndOut(0.5))
+        self.actionzoom_out.triggered.connect(lambda:self.ZoomiInAndOut(2))
+        # self.actionzoom_out.triggered.connect(lambda:self.zoomout())
         self.actionSave_as_pdf.triggered.connect(lambda:self.savepdf())
-        self.actionBackward.triggered.connect(lambda:self.scrlleft())
-        self.actionForward.triggered.connect(lambda:self.scrlright())
+        self.actionBackward.triggered.connect(lambda:self.ScrollRightAndLeft(-1))
+        self.actionForward.triggered.connect(lambda:self.ScrollRightAndLeft(1))
         self.actionSpectrogram.triggered.connect(lambda:self.spectro())
-        self.actionPlay.triggered.connect(lambda:self.playy())
-        self.actionPause.triggered.connect(lambda:self.pausee())
+        self.actionPlay.triggered.connect(lambda:self.Play())
+        self.actionPause.triggered.connect(lambda:self.Pause())
     
-        self.Zoom_in.clicked.connect(lambda:self.zoomin())
-        self.zoom_out.clicked.connect(lambda:self.zoomout())
-        self.left.clicked.connect(lambda:self.scrlleft())
-        self.right.clicked.connect(lambda:self.scrlright())
-        self.pause.clicked.connect(lambda:self.pausee())
-        self.play.clicked.connect(lambda:self.playy())
+        self.Zoom_in.clicked.connect(lambda:self.ZoomiInAndOut(0.5))
+        self.zoom_out.clicked.connect(lambda:self.ZoomiInAndOut(2))
+        self.left.clicked.connect(lambda:self.ScrollRightAndLeft(-1))
+        self.right.clicked.connect(lambda:self.ScrollRightAndLeft(1))
+        self.pause.clicked.connect(lambda:self.Pause())
+        self.play.clicked.connect(lambda:self.Play())
         self.open.clicked.connect(lambda:self.opensignal())
         self.save.clicked.connect(lambda:self.savepdf())
         self.spec.clicked.connect(lambda:self.spectro())
-        self.up.clicked.connect(lambda:self.SpeedUp())
-        self.down.clicked.connect(lambda:self.SpeedDown())
+        self.up.clicked.connect(lambda:self.SpeedUpAndDown(2))
+        self.down.clicked.connect(lambda:self.SpeedUpAndDown(0.5))
+        # self.down.clicked.connect(lambda:self.SpeedDown())
         self.sound.clicked.connect(lambda:self.sounds())
         self.wav.clicked.connect(lambda:self.wave())
         self.new.clicked.connect(lambda:self.new_window())
@@ -615,15 +617,15 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def update_data1(self,index):
         if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10 * self.speed[index]
+                self.n[index] += int(10 * self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
                 self.xmin[index]= 0
                 self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10 * self.speed[index]
-                self.n[index] += 10 * self.speed[index]
+                self.nn[index] +=  int(10 * self.speed[index])
+                self.n[index] +=int( 10 * self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
                 self.xmin[index] = self.nn[index]
@@ -640,15 +642,15 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def update_data2(self,index):
         if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10 * self.speed[index]
+                self.n[index] += int(10 * self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
                 self.xmin[index]= 0
                 self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10 * self.speed[index]
-                self.n[index] += 10 * self.speed[index]
+                self.nn[index] +=  int(10 * self.speed[index])
+                self.n[index] += int(10*self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
                 self.xmin[index] = self.nn[index]
@@ -667,15 +669,15 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def update_data3(self,index):
         if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
-                self.n[index] += 10 * self.speed[index]
+                self.n[index] += int(10 * self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
                 self.xmin[index]= 0
                 self.xmax[index]= self.r[index]
             
             else :
-                self.nn[index] +=  10 * self.speed[index]
-                self.n[index] += 10 * self.speed[index]
+                self.nn[index] += int(10 * self.speed[index])
+                self.n[index] += int(10 * self.speed[index])
                 self.data_line[index].setData(self.data[index][0 : self.n[index]])
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
                 self.xmin[index] = self.nn[index]
@@ -733,62 +735,39 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.sound.play()
 
         
-    def pausee(self):
+    def Pause(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
                 if self.timer[i].isActive():
                     self.timer[i].stop()
 
-    def playy(self):
+    def Play(self):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
                 if self.timer[i].isActive()==False:
                     self.timer[i].start()
         
-    def zoomin(self):
+    def ZoomiInAndOut(self,index):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                print(bool(self.checkBox[2]))
-                self.signals[i].plotItem.getViewBox().scaleBy(x=0.5,y=1)
-                self.r[i]=self.r[i]*0.5
-                self.z[i] = self.z[i] * 0.5
-                # self.scrollrate[i] *=  0.5
-                # self.scrollrate[i]=int(self.scrollrate[i])
+                print(index)
+                self.signals[i].plotItem.getViewBox().scaleBy(x=index ,y=1)
+                self.r[i]=self.r[i]*index
+                self.z[i] = self.z[i] * index
+ 
       
-    def zoomout(self):
+    def ScrollRightAndLeft(self,index):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                self.signals[i].plotItem.getViewBox().scaleBy(x=2,y=1)
-                self.r[i]=self.r[i]*2
-                self.z[i] = self.z[i] * 2
-                # self.scrollrate[i] *=  2
-
-      
-    def scrlleft(self):
-        for i in range (0,3):
-            if (self.checkBox[i].isChecked()==True):
-                self.signals[i].plotItem.getViewBox().translateBy(x=-100  ,y=0)
+                self.signals[i].plotItem.getViewBox().translateBy(x=index*100  ,y=0)
                 
-      
-    def scrlright(self):
-        for i in range (0,3):
-            if (self.checkBox[i].isChecked()==True):
-                self.signals[i].plotItem.getViewBox().translateBy(x=100  ,y=0)
                 
-    def SpeedUp(self):
+    def SpeedUpAndDown(self,index):
 
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                self.speed[i]  *=  2
-
-    def SpeedDown(self):
-
-       for i in range (0,3):
-            if (self.checkBox[i].isChecked()==True):
-                self.speed[i]  *=  0.5
-                self.speed[i] = int(self.speed[i])
-
-
+                self.speed[i]  *=  index
+    
                 
 
 #     
