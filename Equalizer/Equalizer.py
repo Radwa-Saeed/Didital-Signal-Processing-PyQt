@@ -544,13 +544,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
             # Timer signal binding update_data function
             x = self.counter
             if x%3 == 0:
-                self.timer[x].timeout.connect(lambda: self.update_data1(x))
+                self.timer[x].timeout.connect(lambda: self.update_data(x))
                 self.timer[x].start(50)
             if x%3 == 1:
-                self.timer[x].timeout.connect(lambda: self.update_data2(x)) 
+                self.timer[x].timeout.connect(lambda: self.update_data(x)) 
                 self.timer[x].start(50)
             if x%3 == 2:
-                self.timer[x].timeout.connect(lambda: self.update_data3(x))
+                self.timer[x].timeout.connect(lambda: self.update_data(x))
                 self.timer[x].start(50)
             # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
             #self.timer1.start(50)
@@ -614,7 +614,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
  
 
     # Data shift left
-    def update_data1(self,index):
+    def update_data(self,index):
         if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
                 self.n[index] += int(10 * self.speed[index])
@@ -630,7 +630,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
                 self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
                 self.xmin[index] = self.nn[index]
                 self.xmax[index] = self.r[index] +self.nn[index]
-
             self.z[index] = 1
             
         else :
@@ -638,58 +637,59 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
             self.xmin[index] = 0 
             self.xmax[index] = len(self.data[index])* self.z[index]
+            self.Pause()
 
-    def update_data2(self,index):
-        if self.n[index] < len(self.data[index]):
-            if self.n[index] < 1000 :    
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
-                self.xmin[index]= 0
-                self.xmax[index]= self.r[index]
+    # def update_data2(self,index):
+    #     if self.n[index] < len(self.data[index]):
+    #         if self.n[index] < 1000 :    
+    #             self.n[index] += int(10 * self.speed[index])
+    #             self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #             self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+    #             self.xmin[index]= 0
+    #             self.xmax[index]= self.r[index]
             
-            else :
-                self.nn[index] +=  int(10 * self.speed[index])
-                self.n[index] += int(10*self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
-                self.xmin[index] = self.nn[index]
-                self.xmax[index] = self.r[index] +self.nn[index]
+    #         else :
+    #             self.nn[index] +=  int(10 * self.speed[index])
+    #             self.n[index] += int(10*self.speed[index])
+    #             self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #             self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+    #             self.xmin[index] = self.nn[index]
+    #             self.xmax[index] = self.r[index] +self.nn[index]
 
-            self.z[index] = 1
+    #         self.z[index] = 1
             
-        else :
-            self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
-            self.xmin[index] = 0 
-            self.xmax[index] = len(self.data[index])* self.z[index]
+    #     else :
+    #         self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #         self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
+    #         self.xmin[index] = 0 
+    #         self.xmax[index] = len(self.data[index])* self.z[index]
 
 
 
-    def update_data3(self,index):
-        if self.n[index] < len(self.data[index]):
-            if self.n[index] < 1000 :    
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
-                self.xmin[index]= 0
-                self.xmax[index]= self.r[index]
+    # def update_data3(self,index):
+    #     if self.n[index] < len(self.data[index]):
+    #         if self.n[index] < 1000 :    
+    #             self.n[index] += int(10 * self.speed[index])
+    #             self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #             self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
+    #             self.xmin[index]= 0
+    #             self.xmax[index]= self.r[index]
             
-            else :
-                self.nn[index] += int(10 * self.speed[index])
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
-                self.xmin[index] = self.nn[index]
-                self.xmax[index] = self.r[index] +self.nn[index]
+    #         else :
+    #             self.nn[index] += int(10 * self.speed[index])
+    #             self.n[index] += int(10 * self.speed[index])
+    #             self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #             self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
+    #             self.xmin[index] = self.nn[index]
+    #             self.xmax[index] = self.r[index] +self.nn[index]
 
-            self.z[index] = 1
+    #         self.z[index] = 1
             
-        else :
-            self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
-            self.xmin[index] = 0 
-            self.xmax[index] = len(self.data[index])* self.z[index]
+    #     else :
+    #         self.data_line[index].setData(self.data[index][0 : self.n[index]])
+    #         self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
+    #         self.xmin[index] = 0 
+    #         self.xmax[index] = len(self.data[index])* self.z[index]
 
 
 
@@ -751,7 +751,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def ZoomiInAndOut(self,index):
         for i in range (0,3):
             if (self.checkBox[i].isChecked()==True):
-                print(index)
                 self.signals[i].plotItem.getViewBox().scaleBy(x=index ,y=1)
                 self.r[i]=self.r[i]*index
                 self.z[i] = self.z[i] * index
