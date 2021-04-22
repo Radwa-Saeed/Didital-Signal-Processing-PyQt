@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import QSlider
 from PyQt5 import QtCore, QtGui, QtWidgets ,QtPrintSupport
 import pandas as pd
 import numpy as np
-#import wavio
+import wavio
 import sys
 from pyqtgraph import PlotWidget ,PlotItem
 import pathlib
@@ -544,13 +544,13 @@ class Ui_MainWindow(QtGui.QMainWindow):
             # Timer signal binding update_data function
             x = self.counter
             if x%3 == 0:
-                self.timer[x].timeout.connect(lambda: self.update_data1(x))
+                self.timer[x].timeout.connect(lambda: self.update_data(x))
                 self.timer[x].start(50)
             if x%3 == 1:
-                self.timer[x].timeout.connect(lambda: self.update_data2(x)) 
+                self.timer[x].timeout.connect(lambda: self.update_data(x)) 
                 self.timer[x].start(50)
             if x%3 == 2:
-                self.timer[x].timeout.connect(lambda: self.update_data3(x))
+                self.timer[x].timeout.connect(lambda: self.update_data(x))
                 self.timer[x].start(50)
             # The timer interval is 50ms, which can be understood as refreshing data once in 50ms
             #self.timer1.start(50)
@@ -558,12 +558,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.checkBox[x%3].show()
             self.checkBox[x%3].setChecked(True)
 
-        
-    def SpectroSliders(self, equalizer, current):
-        self.Current[current] = int(equalizer.value())
-        self.FourierSpectrogram()
-        
-
+            
     def Fourier(self):
         
       
@@ -600,7 +595,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
 
     def FourierSpectrogram(self) :  
         vmin = 20*np.log10(np.max(self.InversedData.real))  - 200 # hide anything below -40 dBc
-        vmax = 20*np.log10(np.max(self.InversedData.real)) - 45
+        vmax = 20*np.log10(np.max(self.InversedData.real)) - 50
         vmin+= 30 * self.equalizers[10].value() 
         vmax-= 30 * (5-(self.equalizers[11].value())) 
         plt.specgram(self.data, Fs=self.fs ,cmap=self.comboBox.currentText())
@@ -608,7 +603,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.spectrogram[0].setPixmap(QtGui.QPixmap('spectro1.png'))
         # print(self.comboBox.currentText())
         self.spectrogram[2].show()
-        plt.specgram(self.InversedData.real, Fs=self.fs ,cmap=self.comboBox.currentText(), vmin = vmin, vmax = vmax)
+        plt.specgram(self.InversedData.real, Fs=self.fs ,cmap=self.comboBox.currentText(), vmin = min(vmin,vmax), vmax = max(vmax,vmin))
         #plt.ylim((self.spectroSlider[self.Current['min']], self.spectroSlider[self.Current['max']]))
         plt.savefig('spectro2.png', dpi=300, bbox_inches='tight')
         self.spectrogram[2].setPixmap(QtGui.QPixmap('spectro2.png'))
@@ -616,7 +611,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
  
 
     # Data shift left
-    def update_data1(self,index):
+    def update_data(self,index):
         if self.n[index] < len(self.data[index]):
             if self.n[index] < 1000 :    
                 self.n[index] += int(10 * self.speed[index])
@@ -640,60 +635,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
             self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
             self.xmin[index] = 0 
             self.xmax[index] = len(self.data[index])* self.z[index]
-
-    def update_data2(self,index):
-        if self.n[index] < len(self.data[index]):
-            if self.n[index] < 1000 :    
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
-                self.xmin[index]= 0
-                self.xmax[index]= self.r[index]
-            
-            else :
-                self.nn[index] +=  int(10 * self.speed[index])
-                self.n[index] += int(10*self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
-                self.xmin[index] = self.nn[index]
-                self.xmax[index] = self.r[index] +self.nn[index]
-
-            self.z[index] = 1
-            
-        else :
-            self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
-            self.xmin[index] = 0 
-            self.xmax[index] = len(self.data[index])* self.z[index]
-
-
-
-    def update_data3(self,index):
-        if self.n[index] < len(self.data[index]):
-            if self.n[index] < 1000 :    
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(0, self.r[index] , padding=0)
-                self.xmin[index]= 0
-                self.xmax[index]= self.r[index]
-            
-            else :
-                self.nn[index] += int(10 * self.speed[index])
-                self.n[index] += int(10 * self.speed[index])
-                self.data_line[index].setData(self.data[index][0 : self.n[index]])
-                self.signals[index%3].plotItem.setXRange(self.nn[index],self.r[index] +self.nn[index] , padding=0)
-                self.xmin[index] = self.nn[index]
-                self.xmax[index] = self.r[index] +self.nn[index]
-
-            self.z[index] = 1
-            
-        else :
-            self.data_line[index].setData(self.data[index][0 : self.n[index]])
-            self.signals[index%3].plotItem.setXRange(0 , len(self.data[index])* self.z[index] , padding=0)
-            self.xmin[index] = 0 
-            self.xmax[index] = len(self.data[index])* self.z[index]
-
-
 
     def spectro(self):
  
@@ -728,14 +669,14 @@ class Ui_MainWindow(QtGui.QMainWindow):
     def sounds(self):
  
         
-        QtMultimedia.QSound.play(self.path)
-        #pass
+        # QtMultimedia.QSound.play(self.path)
+        pass
        
     def wave(self):
         self.count+=1
         wavio.write("new"+str(self.count)+".wav", self.InversedData.real, self.fs, sampwidth=2)
-        self.sound = QSound("new"+str(self.count)+".wav")
-        self.sound.play()
+        # self.sound = QSound("new"+str(self.count)+".wav")
+        # self.sound.play()
 
         
     def Pause(self):
