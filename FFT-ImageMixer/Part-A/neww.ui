@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1047</width>
+    <height>719</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>381</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Image 1 </string>
+    </property>
+    <widget class="ImageView" name="image1_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="ImageView" name="image1_8">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_3">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>20</y>
+       <width>181</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Phase</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Imaginary</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>270</y>
+      <width>381</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>image 2</string>
+    </property>
+    <widget class="ImageView" name="image1_9">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="ImageView" name="image1_10">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_4">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>20</y>
+       <width>181</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Phase</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Imaginary</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>270</y>
+      <width>391</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Output</string>
+    </property>
+    <widget class="ImageView" name="image1_11">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="ImageView" name="image1_12">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>181</width>
+       <height>221</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>0</y>
+      <width>391</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Mixer</string>
+    </property>
+    <widget class="QLabel" name="Component1">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>110</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Ubuntu</family>
+       <pointsize>11</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Component 1</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="component1_type">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>110</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Choose a Component</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Phase</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Imaginary</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="component1_img">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>110</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Choose an Image</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Image 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Image 2</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="output_channel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string/>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Output 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Output 2</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QSlider" name="component1_slider">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>140</y>
+       <width>271</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QSlider" name="component1_slider_2">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>220</y>
+       <width>271</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>10</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="component1_img_2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>190</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Choose an Imgae</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Image 1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Image 2</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="Component1_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>190</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Ubuntu</family>
+       <pointsize>11</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Component 2</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="component1_type_2">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>190</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Choose a component </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Magnitude</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Phase</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Real</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Imaginary</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1047</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ImageView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">pyqtgraph</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
